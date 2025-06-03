@@ -29,7 +29,7 @@ mdurl
 openpyxl
 pillow
 pluggy
-protobuf
+protobuf==3.20.*
 pyarrow
 pydeck
 pydotplus
