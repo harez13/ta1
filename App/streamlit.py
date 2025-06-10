@@ -19,29 +19,9 @@ if os.path.exists(file_path):
 
 st.markdown(f"""
     <style>
-    /* Ubah background header Streamlit */
-    header[data-testid="stHeader"] {{
-        background: rgba(0, 0, 0, 0.6);  /* Atau bisa pakai image atau gradient */
-        backdrop-filter: blur(4px);      /* Opsional, bikin efek kaca */
-        border-bottom: 1px solid rgba(255,255,255,0.2);
-    }}
+ 
 
-    /* Jika ingin pakai gambar background di header */
-    header[data-testid="stHeader"]::before {{
-        content: "";
-        position: absolute;
-        top: 0;
-        left: 0;
-        right: 0;
-        bottom: 0;
-        background-image: url("data:image/png;base64,{bg_image}");
-        background-size: cover;
-        background-position: center;
-        opacity: 0.6;
-        z-index: -1;
-    }}
-
-    /* Latar belakang dengan gambar */
+        /* Latar belakang dengan gambar */
         [data-testid="stAppViewContainer"] > .main {{
             position: relative;
             background-image: url("data:image/png;base64,{bg_image}");
@@ -66,7 +46,7 @@ st.markdown(f"""
             position: relative;
             z-index: 1;
         }}
-        
+
     </style>
 """, unsafe_allow_html=True)
 
