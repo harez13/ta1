@@ -17,51 +17,44 @@ def get_base64(file_path):
 if os.path.exists(file_path):
     bg_image = get_base64(file_path)
 
-st.markdown(f"""
+st.markdown("""
     <style>
-            
-            .main > div {{
-        background-color: rgba(0, 0, 0, 0.4);  /* Lapisan gelap transparan */
-        padding: 2rem;
-        border-radius: 15px;
-    }}
+    /* Buat kontainer utama memiliki posisi relatif agar overlay bisa ditempatkan */
+    .main {
+        position: relative;
+        z-index: 1;
+    }
 
-        /* Latar belakang dengan gambar */
-        [data-testid="stAppViewContainer"] > .main {{
-            position: relative;
-            background-image: url("data:image/png;base64,{bg_image}");
-            background-size: cover;
-        }}
+    /* Tambahkan overlay tipis gelap transparan di belakang konten */
+    .main::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: rgba(0, 0, 0, 0.3); /* Overlay tipis semi-transparan */
+        z-index: 0;
+        pointer-events: none; /* Supaya overlay tidak mengganggu interaksi */
+    }
 
-        /* --- Overlay transparan seluruh halaman utama --- */
-        .main::before {{
-            content: "";
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100vw;
-            height: 100vh;
-            background: rgba(0, 0, 0, 0.3);  /* Ubah opasitas sesuai kebutuhan */
-            z-index: -1;
-        }}
+    /* Buat konten utama tetap di atas overlay */
+    .main > div {
+        position: relative;
+        z-index: 1;
+    }
 
-        /* --- Pastikan latar belakang main container transparan --- */
-        .st-emotion-cache-1v0mbdj, .st-emotion-cache-uf99v8 {{
-        background-color: transparent !important;
-        box-shadow: none !important;
-        }}
-
-        /* --- Sidebar juga transparan jika ingin --- */
-        section[data-testid="stSidebar"] {{
-            background-color: rgba(0, 0, 0, 0.4);  /* Semi-transparan */
-        }}
-
-        /* --- Header transparan --- */
-        header[data-testid="stHeader"] {{
+    /* Header transparan */
+    header[data-testid="stHeader"] {
         background-color: transparent;
         background-image: none;
         box-shadow: none;
-        }}
+    }
+
+    /* Sidebar transparan */
+    section[data-testid="stSidebar"] {
+        background-color: rgba(0, 0, 0, 0.3);
+    }
 
     </style>
 """, unsafe_allow_html=True)
