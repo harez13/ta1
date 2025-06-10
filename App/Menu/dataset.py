@@ -10,6 +10,10 @@ df = pd.read_csv("clean_data.csv")
 # Menghapus kolom pertama (biasanya index atau ID)
 df = df.iloc[:, 1:]
 
+# Menampilkan dataset
+st.markdown("### Dataset")
+st.dataframe(df)
+
 # Menampilkan keterangan
 st.markdown("### Keterangan Komponen Dataset:")
 st.markdown("""
@@ -28,6 +32,3 @@ st.markdown("""
 - **kategori**: Kategori hasil pengukuran ISPU  
 """)
 
-# Menampilkan dataset
-st.markdown("### Dataset (Tanpa Kolom Pertama):")
-st.dataframe(df)
