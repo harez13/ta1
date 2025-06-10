@@ -7,54 +7,31 @@ st.set_page_config(layout="wide")
 import os
 
 
-# === Ganti nama file dengan file kamu ===
-file_path = "Images/tom-barrett--bSucp2nUdQ-unsplash (1).jpg"
+# Fungsi untuk encode gambar lokal jadi base64
+def add_bg_from_local(image_file):
+    with open(image_file, "rb") as img_file:
+        encoded = base64.b64encode(img_file.read()).decode()
+    st.markdown(
+        f"""
+        <style>
+        .stApp {{
+            background-image: url("data:image/jpg;base64,{encoded}");
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+        }}
+        .main {{
+            background-color: rgba(255, 255, 255, 0.85);  /* semi-transparent putih */
+            padding: 2rem;
+            border-radius: 10px;
+        }}
+        </style>
+        """,
+        unsafe_allow_html=True
+    )
 
-def get_base64(file_path):
-    with open(file_path, "rb") as f:
-        return base64.b64encode(f.read()).decode()
-
-if os.path.exists(file_path):
-    bg_image = get_base64(file_path)
-
-
-st.markdown("""
-    <style>
-    .main {
-        position: relative;
-        z-index: 1;
-    }
-
-    .main::before {
-        content: "";
-        position: absolute;
-        top: 0;
-        left: 0;
-        right: 0;
-        bottom: 0;
-        background: rgba(0, 0, 0, 0.5); /* Lebih gelap untuk keterbacaan */
-        backdrop-filter: blur(4px);     /* Efek blur di latar belakang */
-        z-index: 0;
-        pointer-events: none;
-    }
-
-    .main > div {
-        position: relative;
-        z-index: 1;
-    }
-
-    header[data-testid="stHeader"] {
-        background-color: transparent;
-        background-image: none;
-        box-shadow: none;
-    }
-
-    section[data-testid="stSidebar"] {
-        background-color: rgba(0, 0, 0, 0.4);
-        backdrop-filter: blur(3px);
-    }
-    </style>
-""", unsafe_allow_html=True)
+# Tambahkan background
+add_bg_from_local("Images/abhishek-koli-DsxD_bTq8x0-unsplash.jpg")
 
 
 # -- Page Setup --
