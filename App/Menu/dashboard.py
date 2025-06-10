@@ -231,18 +231,29 @@ elif option == "3. Distribusi Kategori Kualitas Udara per Stasiun":
 # --- Visualisasi 4 ---
 elif option == "4. Frekuensi Parameter Pencemar Kritis per Stasiun":
     
-    # Parameter polutan
+    # Konversi kategori ke nilai numerik
+    kategori_mapping = {
+        'BAIK': 1,
+        'SEDANG': 2,
+        'TIDAK SEHAT': 3,
+        'SANGAT TIDAK SEHAT': 4,
+        'BERBAHAYA': 5
+    }
+    df['kategori_nilai'] = df['kategori'].map(kategori_mapping)
+
+    # Pilih kolom yang akan dihitung korelasinya
     pollutant_cols = ['pm_sepuluh', 'pm_duakomalima', 'sulfur_dioksida',
-                    'karbon_monoksida', 'ozon', 'nitrogen_dioksida']
+                    'karbon_monoksida', 'ozon', 'nitrogen_dioksida', 'kategori_nilai']
 
-    # Hitung korelasi
-    corr_matrix = df[pollutant_cols].corr()
+    # Korelasi antara parameter pencemar dan kualitas udara
+    corr_matrix = df[pollutant_cols].corr()[['kategori_nilai']].drop('kategori_nilai')
 
-    # Buat heatmap
-    st.title("🔥 Heatmap Korelasi Antar Parameter Pencemar Udara")
-    fig, ax = plt.subplots(figsize=(10, 6))
+    # Buat heatmap korelasi
+    st.title("🌫️ Korelasi Parameter Pencemar terhadap Kualitas Udara")
+
+    fig, ax = plt.subplots(figsize=(8, 5))
     sns.heatmap(corr_matrix, annot=True, cmap='coolwarm', fmt=".2f", linewidths=0.5, ax=ax)
-    ax.set_title("Korelasi Antar Parameter Pencemar")
+    ax.set_title("Korelasi Parameter Pencemar vs Kategori Kualitas Udara")
     st.pyplot(fig)
 
     # Penjelasan
@@ -251,23 +262,20 @@ elif option == "4. Frekuensi Parameter Pencemar Kritis per Stasiun":
 
     ### ℹ️ Penjelasan Visualisasi:
 
-    - Heatmap ini menunjukkan **tingkat korelasi linier** antar parameter pencemar udara.
-    - **Nilai korelasi berkisar dari -1 hingga +1**:
-    - +1 → hubungan sangat kuat dan searah
-    - 0 → tidak ada hubungan linier
-    - -1 → hubungan sangat kuat namun berlawanan arah
+    - Heatmap ini menunjukkan **tingkat hubungan antara setiap parameter pencemar** dan **tingkat kategori kualitas udara** yang telah dinyatakan dalam bentuk angka (1–5).
+    - **Semakin tinggi nilai korelasi (positif), semakin besar kontribusi parameter tersebut terhadap memburuknya kualitas udara**.
 
     ---
 
-    ### 🧠 Apa yang Bisa Dilihat:
-    - **PM10 dan PM2.5** biasanya menunjukkan korelasi tinggi karena keduanya berasal dari partikel padat di udara.
-    - **CO dan NO₂** juga mungkin berkorelasi karena sumbernya sama, seperti emisi kendaraan.
-    - Korelasi negatif bisa menunjukkan **interaksi atmosfer** yang saling menghambat antar polutan.
+    ### 🧠 Yang Bisa Dianalisis:
+    - Nilai korelasi mendekati **+1** → Parameter sangat berkontribusi terhadap kualitas udara buruk.
+    - Nilai mendekati **0** → Pengaruh terhadap kategori kualitas udara lemah atau tidak signifikan.
+    - Ini membantu dalam **menentukan polutan utama yang perlu ditangani lebih serius**.
 
     ---
 
-    ### 🎯 Manfaat Heatmap:
-    - Untuk **pemodelan statistik atau machine learning**, kita bisa memilih parameter yang tidak terlalu saling berkorelasi agar menghindari redundansi.
-    - Membantu **mengidentifikasi polutan utama** yang berkontribusi terhadap variasi udara secara keseluruhan.
+    ### 🎯 Manfaat Heatmap Ini:
+    - Berguna untuk **pengambilan keputusan lingkungan**, seperti menentukan prioritas pengendalian polusi.
+    - Mendukung pembuatan model prediksi kualitas udara berbasis parameter pencemar.
 
     """)
