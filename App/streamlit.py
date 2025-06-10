@@ -8,3 +8,35 @@ from pytz import timezone
 import base64
 
 
+st.title('Test')
+
+#-- Page Setup --
+
+tentang_saya = st.Page(
+    page = 'Menu/tentang_saya.py',
+    title = 'Tentang Saya',
+)
+
+project1_page = st.Page(
+    page = 'Menu/main_project.py',
+    title = 'Project',
+)
+
+project2_page = st.Page(
+    page = 'Menu/dashboard.py',
+    title = 'Dashboard',
+)
+
+#-- Navigation Setup [Without Sections] --
+pg = st.navigation(pages = [tentang_saya, project1_page, project2_page])
+
+#-- Navigation Setup With Sections
+pg = st.navigation(
+    {
+        'Info' : [tentang_saya],
+        'Projects' : [project1_page, project2_page]
+    }
+)
+
+#-- Run Navigation
+pg.run()
