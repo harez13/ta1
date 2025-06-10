@@ -21,7 +21,7 @@ if os.path.exists(file_path):
         f"""
         <style>
         /* Overlay semi-transparan untuk area konten utama */
-        [data-testid="stAppViewContainer"] > .main {{
+        [data-testid="stAppViewContainer"] > .main::before && [data-testid="stHeader"] {{
             content: ""
             position: absolute;
             top: 0;
