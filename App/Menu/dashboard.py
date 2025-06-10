@@ -231,18 +231,43 @@ elif option == "3. Distribusi Kategori Kualitas Udara per Stasiun":
 # --- Visualisasi 4 ---
 elif option == "4. Frekuensi Parameter Pencemar Kritis per Stasiun":
     
-    # Persiapan data
-    treemap_data = df.groupby(['parameter_pencemar_kritis', 'kategori']).size().reset_index(name='jumlah')
+    # Parameter polutan
+    pollutant_cols = ['pm_sepuluh', 'pm_duakomalima', 'sulfur_dioksida',
+                    'karbon_monoksida', 'ozon', 'nitrogen_dioksida']
 
-    # Treemap dengan Plotly
-    fig = px.treemap(
-        treemap_data,
-        path=['parameter_pencemar_kritis', 'kategori'],
-        values='jumlah',
-        color='jumlah',
-        color_continuous_scale='RdYlGn_r',
-        title='Distribusi Parameter Pencemar Kritis Berdasarkan Kategori Kualitas Udara'
-    )
+    # Hitung korelasi
+    corr_matrix = df[pollutant_cols].corr()
 
-    # Tampilkan grafik
-    st.plotly_chart(fig, use_container_width=True)
+    # Buat heatmap
+    st.title("🔥 Heatmap Korelasi Antar Parameter Pencemar Udara")
+    fig, ax = plt.subplots(figsize=(10, 6))
+    sns.heatmap(corr_matrix, annot=True, cmap='coolwarm', fmt=".2f", linewidths=0.5, ax=ax)
+    ax.set_title("Korelasi Antar Parameter Pencemar")
+    st.pyplot(fig)
+
+    # Penjelasan
+    st.markdown("""
+    ---
+
+    ### ℹ️ Penjelasan Visualisasi:
+
+    - Heatmap ini menunjukkan **tingkat korelasi linier** antar parameter pencemar udara.
+    - **Nilai korelasi berkisar dari -1 hingga +1**:
+    - +1 → hubungan sangat kuat dan searah
+    - 0 → tidak ada hubungan linier
+    - -1 → hubungan sangat kuat namun berlawanan arah
+
+    ---
+
+    ### 🧠 Apa yang Bisa Dilihat:
+    - **PM10 dan PM2.5** biasanya menunjukkan korelasi tinggi karena keduanya berasal dari partikel padat di udara.
+    - **CO dan NO₂** juga mungkin berkorelasi karena sumbernya sama, seperti emisi kendaraan.
+    - Korelasi negatif bisa menunjukkan **interaksi atmosfer** yang saling menghambat antar polutan.
+
+    ---
+
+    ### 🎯 Manfaat Heatmap:
+    - Untuk **pemodelan statistik atau machine learning**, kita bisa memilih parameter yang tidak terlalu saling berkorelasi agar menghindari redundansi.
+    - Membantu **mengidentifikasi polutan utama** yang berkontribusi terhadap variasi udara secara keseluruhan.
+
+    """)
