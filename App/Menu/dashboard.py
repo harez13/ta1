@@ -1,49 +1,60 @@
 import streamlit as st
 import pandas as pd
-import seaborn as sns
 import matplotlib.pyplot as plt
+import seaborn as sns
 
-df = pd.read_csv('clean_data.csv')
+# Load data
+df = pd.read_csv("clean_data.csv")
 
-# Pastikan kolom tanggal dalam datetime
+# Pastikan kolom tanggal dalam format datetime
 df['tanggal'] = pd.to_datetime(df['tanggal'])
 
-# Tambahkan kolom Tahun dan Bulan
-df['Tahun'] = df['tanggal'].dt.year
-df['Bulan'] = df['tanggal'].dt.month
+# Ekstrak tahun dan bulan
+df['tahun'] = df['tanggal'].dt.year
+df['bulan'] = df['tanggal'].dt.month
 
 # Sidebar filter
-st.sidebar.title("Filter Data")
+st.title("Tren Bulanan PM2.5 dan PM10 per Stasiun")
+st.sidebar.header("Filter Data")
+
 stasiun_list = df['stasiun'].unique()
-stasiun = st.sidebar.selectbox("Pilih Stasiun", stasiun_list)
+selected_stasiun = st.sidebar.selectbox("Pilih Stasiun", stasiun_list)
 
-bulan_min = int(df['Bulan'].min())
-bulan_max = int(df['Bulan'].max())
-bulan_range = st.sidebar.slider("Pilih Rentang Bulan", bulan_min, bulan_max, (1, 12))
+# Filter data berdasarkan stasiun
+df_filtered = df[df['stasiun'] == selected_stasiun]
 
-# Filter data berdasarkan input pengguna
-filtered_df = df[
-    (df['stasiun'] == stasiun) &
-    (df['Bulan'] >= bulan_range[0]) &
-    (df['Bulan'] <= bulan_range[1])
-]
+# Hitung rata-rata bulanan untuk PM2.5 dan PM10
+monthly_avg = df_filtered.groupby(['tahun', 'bulan'])[['pm_duakomalima', 'pm_sepuluh']].mean().reset_index()
 
-# Group dan agregasi data
-agg_df = filtered_df.groupby(['Tahun', 'Bulan'])[['pm_duakomalima', 'pm_sepuluh']].mean().reset_index()
+# Gabungkan tahun dan bulan menjadi satu kolom untuk x-axis
+monthly_avg['periode'] = pd.to_datetime(monthly_avg[['tahun', 'bulan']].assign(day=1))
 
 # Plot
-st.title("Tren Bulanan pm_duakomalima dan pm_sepuluh")
-st.write(f"Stasiun: **{stasiun}** | Bulan: **{bulan_range[0]} - {bulan_range[1]}**")
+plt.figure(figsize=(12, 6))
+sns.lineplot(data=monthly_avg, x='periode', y='pm_duakomalima', marker='o', label='PM2.5')
+sns.lineplot(data=monthly_avg, x='periode', y='pm_sepuluh', marker='o', label='PM10')
 
-fig, ax = plt.subplots(figsize=(10, 5))
-for tahun in agg_df['Tahun'].unique():
-    tahun_data = agg_df[agg_df['Tahun'] == tahun]
-    ax.plot(tahun_data['Bulan'], tahun_data['pm_duakomalima'], marker='o', label=f'pm_duakomalima - {tahun}')
-    ax.plot(tahun_data['Bulan'], tahun_data['pm_sepuluh'], marker='s', linestyle='--', label=f'pm_sepuluh - {tahun}')
+# Tambahkan nilai pada titik-titik garis
+for i in range(len(monthly_avg)):
+    plt.text(monthly_avg['periode'][i], monthly_avg['pm_duakomalima'][i]+0.5,
+             f"{monthly_avg['pm_duakomalima'][i]:.1f}", ha='center', color='blue')
+    plt.text(monthly_avg['periode'][i], monthly_avg['pm_sepuluh'][i]+0.5,
+             f"{monthly_avg['pm_sepuluh'][i]:.1f}", ha='center', color='orange')
 
-ax.set_title("Rata-rata pm_duakomalima dan pm_sepuluh per Bulan")
-ax.set_xlabel("Bulan")
-ax.set_ylabel("Konsentrasi (µg/m³)")
-ax.legend()
-ax.grid(True)
-st.pyplot(fig)
+plt.title(f"Tren Bulanan PM2.5 dan PM10 di Stasiun {selected_stasiun}")
+plt.xlabel("Periode (Bulan)")
+plt.ylabel("Konsentrasi (µg/m³)")
+plt.grid(True)
+plt.xticks(rotation=45)
+plt.tight_layout()
+
+st.pyplot(plt)
+
+# Penjelasan matriks
+st.subheader("Penjelasan Matriks")
+st.markdown("""
+- **PM2.5 (pm_duakomalima)**: Partikulat udara berdiameter kurang dari 2.5 mikron, dapat menembus jauh ke dalam saluran pernapasan.
+- **PM10 (pm_sepuluh)**: Partikulat udara berdiameter kurang dari 10 mikron, berasal dari debu jalanan, asap kendaraan, dll.
+- Nilai yang ditampilkan adalah **rata-rata bulanan** berdasarkan data harian.
+- Grafik menunjukkan tren musiman dan perbandingan antara PM2.5 dan PM10 di stasiun terpilih.
+""")
