@@ -225,28 +225,23 @@ elif option == "3. Distribusi Kategori Kualitas Udara per Stasiun":
 
     st.markdown("""
     Visualisasi ini menampilkan **grafik deret waktu** (time series) untuk parameter pencemar udara dari berbagai **stasiun pemantauan di DKI Jakarta**.
-
-    ---
-
-    ### 🔍 Tujuan Visualisasi
-    - Memonitor **perubahan harian** kualitas udara di setiap lokasi.
-    - Mengamati tren peningkatan atau penurunan konsentrasi polutan dari waktu ke waktu.
-    - Membandingkan **kinerja kualitas udara antar stasiun** secara visual dan informatif.
-
-    ---
-
-    ### 🛠️ Cara Menggunakan:
-    1. **Pilih parameter pencemar** (seperti PM2.5, SO₂, CO, dll.) dari menu sebelah kiri.
-    2. **Pilih satu atau lebih stasiun** untuk dibandingkan.
-    3. Grafik akan memperlihatkan tren nilai parameter tersebut untuk setiap stasiun yang dipilih.
-
-    ---
-
-    ### 📈 Yang Bisa Dianalisis:
-    - Hari-hari dengan pencemaran tinggi atau ekstrem.
-    - Perbandingan antar lokasi (mana yang cenderung lebih bersih atau lebih tercemar).
-    - Pola tren musiman atau pengaruh cuaca/kegiatan manusia.
-
-    ---
-
     """)
+
+# --- Visualisasi 4 ---
+elif option == "4. Frekuensi Parameter Pencemar Kritis per Stasiun":
+    
+    # Persiapan data
+    treemap_data = df.groupby(['parameter_pencemar_kritis', 'kategori']).size().reset_index(name='jumlah')
+
+    # Treemap dengan Plotly
+    fig = px.treemap(
+        treemap_data,
+        path=['parameter_pencemar_kritis', 'kategori'],
+        values='jumlah',
+        color='jumlah',
+        color_continuous_scale='RdYlGn_r',
+        title='Distribusi Parameter Pencemar Kritis Berdasarkan Kategori Kualitas Udara'
+    )
+
+    # Tampilkan grafik
+    st.plotly_chart(fig, use_container_width=True)
