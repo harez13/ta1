@@ -196,7 +196,7 @@ elif option == "3. Distribusi Kategori Kualitas Udara per Stasiun":
     )
 
     # Pilih stasiun
-    stations = st.sidebar.multiselect(
+    stations = st.multiselect(
         "Pilih Stasiun Pemantau",
         options=df["stasiun"].unique(),
         default=df["stasiun"].unique()
@@ -222,3 +222,31 @@ elif option == "3. Distribusi Kategori Kualitas Udara per Stasiun":
     plt.xlabel("Tanggal")
     plt.tight_layout()
     st.pyplot(fig)
+
+    st.markdown("""
+    Visualisasi ini menampilkan **grafik deret waktu** (time series) untuk parameter pencemar udara dari berbagai **stasiun pemantauan di DKI Jakarta**.
+
+    ---
+
+    ### 🔍 Tujuan Visualisasi
+    - Memonitor **perubahan harian** kualitas udara di setiap lokasi.
+    - Mengamati tren peningkatan atau penurunan konsentrasi polutan dari waktu ke waktu.
+    - Membandingkan **kinerja kualitas udara antar stasiun** secara visual dan informatif.
+
+    ---
+
+    ### 🛠️ Cara Menggunakan:
+    1. **Pilih parameter pencemar** (seperti PM2.5, SO₂, CO, dll.) dari menu sebelah kiri.
+    2. **Pilih satu atau lebih stasiun** untuk dibandingkan.
+    3. Grafik akan memperlihatkan tren nilai parameter tersebut untuk setiap stasiun yang dipilih.
+
+    ---
+
+    ### 📈 Yang Bisa Dianalisis:
+    - Hari-hari dengan pencemaran tinggi atau ekstrem.
+    - Perbandingan antar lokasi (mana yang cenderung lebih bersih atau lebih tercemar).
+    - Pola tren musiman atau pengaruh cuaca/kegiatan manusia.
+
+    ---
+
+    """)
