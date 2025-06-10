@@ -20,10 +20,8 @@ if os.path.exists(file_path):
     st.markdown(
         f"""
         <style>
- 
-    
         /* Overlay semi-transparan untuk area konten utama */
-        [data-testid="stAppViewContainer"] > .main::before {{
+        [data-testid="stAppViewContainer"] > .main {{
             content: ""
             position: absolute;
             top: 0;
