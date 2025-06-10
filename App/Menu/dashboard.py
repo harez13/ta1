@@ -273,7 +273,7 @@ elif option == "4. Frekuensi Parameter Pencemar Kritis per Stasiun":
 elif option == "5. Tren Harian PM2.5 per Stasiun":
     df['hari'] = df['tanggal'].dt.day
 
-    # Konversi kategori kualitas udara menjadi nilai numerik
+    # Konversi kategori ke angka
     kategori_mapping = {
         'BAIK': 1,
         'SEDANG': 2,
@@ -283,30 +283,47 @@ elif option == "5. Tren Harian PM2.5 per Stasiun":
     }
     df['kategori_nilai'] = df['kategori'].map(kategori_mapping)
 
-    # Sidebar untuk pilih bulan
-    st.sidebar.header("📅 Pilih Bulan")
-    bulan_tersedia = df['nama_bulan'].unique()
+    # Sidebar
+    st.sidebar.header("🔧 Filter Visualisasi")
+
+    # Pilih bulan
+    bulan_tersedia = df['nama_bulan'].unique().tolist()
     bulan_tersedia.sort()
     pilih_bulan = st.sidebar.selectbox("Pilih bulan:", bulan_tersedia)
 
-    # Filter data berdasarkan bulan
-    df_bulan = df[df['nama_bulan'] == pilih_bulan]
+    # Pilih stasiun
+    stasiun_tersedia = df['stasiun'].unique().tolist()
+    stasiun_terpilih = st.sidebar.selectbox("Pilih stasiun:", stasiun_tersedia)
 
-    # Hitung rata-rata per hari per stasiun
-    rata_harian = df_bulan.groupby(['hari', 'stasiun'])['kategori_nilai'].mean().reset_index()
+    # Filter data
+    df_filtered = df[(df['nama_bulan'] == pilih_bulan) & (df['stasiun'] == stasiun_terpilih)]
 
-    # Judul
-    st.title("📈 Tren Harian Kualitas Udara per Stasiun")
-    st.subheader(f"Bulan: {pilih_bulan}")
+    # Hitung rata-rata harian
+    rata_harian = df_filtered.groupby('hari')[['kategori_nilai', 'nilai']].mean().reset_index()
 
     # Visualisasi
-    fig, ax = plt.subplots(figsize=(12, 6))
-    sns.lineplot(data=rata_harian, x='hari', y='kategori_nilai', hue='stasiun', marker="o", ax=ax)
-    ax.set_title(f"Tren Kualitas Udara Harian per Stasiun - Bulan {pilih_bulan}")
-    ax.set_xlabel("Hari")
-    ax.set_ylabel("Rata-rata Nilai Kategori Kualitas Udara (1=Baik, 5=Berbahaya)")
-    ax.set_ylim(1, 5)
-    ax.grid(True)
+    st.title("📈 Tren Harian Kualitas Udara per Stasiun")
+    st.subheader(f"Bulan: {pilih_bulan} | Stasiun: {stasiun_terpilih}")
+
+    fig, ax1 = plt.subplots(figsize=(12, 6))
+
+    # Plot kategori kualitas udara
+    sns.lineplot(data=rata_harian, x='hari', y='kategori_nilai', marker='o', label='Kategori Kualitas Udara', ax=ax1, color='tab:blue')
+    ax1.set_ylabel("Kategori (1=Baik, 5=Berbahaya)", color='tab:blue')
+    ax1.set_ylim(1, 5)
+    ax1.tick_params(axis='y', labelcolor='tab:blue')
+
+    # Plot nilai aktual
+    ax2 = ax1.twinx()
+    sns.lineplot(data=rata_harian, x='hari', y='nilai', marker='s', label='Nilai Aktual', ax=ax2, color='tab:red')
+    ax2.set_ylabel("Nilai Aktual Kualitas Udara", color='tab:red')
+    ax2.tick_params(axis='y', labelcolor='tab:red')
+
+    # Finalisasi grafik
+    ax1.set_xlabel("Hari")
+    ax1.set_title(f"Tren Harian Kualitas Udara - {stasiun_terpilih} - {pilih_bulan}")
+    ax1.grid(True)
+    fig.tight_layout()
     st.pyplot(fig)
 
     # Penjelasan
@@ -315,23 +332,22 @@ elif option == "5. Tren Harian PM2.5 per Stasiun":
 
     ### ℹ️ Penjelasan Visualisasi:
 
-    - Grafik ini menunjukkan **perubahan harian kualitas udara** untuk setiap stasiun dalam bulan yang dipilih.
-    - Skala:
-    - 1 = Baik
-    - 5 = Berbahaya
-    - Garis mewakili setiap stasiun, dan titik-titik menunjukkan nilai harian.
+    Grafik menampilkan **dua tren sekaligus** untuk stasiun dan bulan yang dipilih:
+
+    - 🔵 **Garis Biru (kiri):** menunjukkan rata-rata **kategori kualitas udara** harian (1 = Baik, 5 = Berbahaya).
+    - 🔴 **Garis Merah (kanan):** menampilkan **nilai aktual kualitas udara** (angka numerik mentah).
 
     ---
 
-    ### 📌 Manfaat Visualisasi:
-    - **Mengidentifikasi hari-hari kritis** saat kualitas udara memburuk.
-    - Mengetahui apakah terdapat **tren tertentu** di hari kerja vs akhir pekan.
-    - Cocok untuk **analisis musiman** atau mengevaluasi dampak kejadian khusus (misal: kebakaran, pembangunan besar, dll).
+    ### 📌 Tujuan:
+    - Memantau **perubahan kualitas udara harian** secara detail.
+    - Membandingkan **skor kategori vs. nilai aktual** agar lebih objektif.
+    - Mengetahui **hari-hari rawan polusi** dalam satu bulan.
 
     ---
 
-    ### 🧠 Insight yang Bisa Dihasilkan:
-    - Jika terdapat lonjakan mendadak di hari tertentu → bisa dilakukan investigasi penyebab.
-    - Jika pola buruk berulang tiap minggu → perlu tindakan reguler atau pemantauan lebih ketat.
+    ### 🧠 Insight yang Bisa Diperoleh:
+    - Pola lonjakan nilai aktual bisa memberi peringatan dini meskipun kategori masih tampak “Sedang”.
+    - Cocok untuk **pemantauan harian** dan pengambilan keputusan cepat (misal: penutupan jalan, himbauan aktivitas luar ruangan).
 
     """)
