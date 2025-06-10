@@ -20,30 +20,11 @@ if os.path.exists(file_path):
     st.markdown(
         f"""
         <style>
-        /* Background untuk seluruh halaman termasuk header */
-        html, body {{
-            height: 100%;
-            background: none;
-        }}
-
-        body::before {{
-            content: "";
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100vw;
-            height: 100vh;
-            background-image: url("data:image/png;base64,{bg_image}");
-            background-size: cover;
-            background-position: center;
-            background-repeat: no-repeat;
-            opacity: 1;
-            z-index: -1;
-        }}
-
+ 
+    
         /* Overlay semi-transparan untuk area konten utama */
         [data-testid="stAppViewContainer"] > .main::before {{
-            content: "";
+            content: ""
             position: absolute;
             top: 0;
             bottom: 0;
