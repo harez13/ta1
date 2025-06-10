@@ -46,6 +46,7 @@ seaborn
 setuptools
 smmap
 streamlit==1.36.*
+streamlit_gsheets
 tenacity
 threadpoolctl
 toml
