@@ -19,6 +19,12 @@ if os.path.exists(file_path):
 
 st.markdown(f"""
     <style>
+            
+            .main > div {{
+        background-color: rgba(0, 0, 0, 0.4);  /* Lapisan gelap transparan */
+        padding: 2rem;
+        border-radius: 15px;
+    }}
 
         /* Latar belakang dengan gambar */
         [data-testid="stAppViewContainer"] > .main {{
@@ -40,8 +46,9 @@ st.markdown(f"""
         }}
 
         /* --- Pastikan latar belakang main container transparan --- */
-        .st-emotion-cache-uf99v8 {{
-            background-color: transparent !important;
+        .st-emotion-cache-1v0mbdj, .st-emotion-cache-uf99v8 {{
+        background-color: transparent !important;
+        box-shadow: none !important;
         }}
 
         /* --- Sidebar juga transparan jika ingin --- */
@@ -54,12 +61,6 @@ st.markdown(f"""
         background-color: transparent;
         background-image: none;
         box-shadow: none;
-        }}
-
-        /* Konten tetap tampil di atas overlay */
-        [data-testid="stAppViewContainer"] > .main > div {{
-            position: relative;
-            z-index: 1;
         }}
 
     </style>
