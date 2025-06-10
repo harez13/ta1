@@ -6,7 +6,6 @@ st.set_page_config(layout="wide")
 
 import os
 
-st.set_page_config(layout="wide")
 
 # === Ganti nama file dengan file kamu ===
 file_path = "Images/tom-barrett--bSucp2nUdQ-unsplash (1).jpg"
