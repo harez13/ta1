@@ -28,9 +28,22 @@ st.markdown(
         background-position: center;
         background-repeat: no-repeat;
     }}
+
+     header[data-testid="stHeader"] {{
+        background-color: transparent;
+        background-image: none;
+        box-shadow: none;
+    }}
+
+    section[data-testid="stSidebar"] {{
+        background-color: rgba(0, 0, 0, 0.4);
+        backdrop-filter: blur(3px);
+    }}
     </style>
     """,
     unsafe_allow_html=True
+
+    
 )
 
 
