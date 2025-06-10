@@ -20,7 +20,9 @@ def set_png_as_page_bg(png_file):
     body {
     background-image: url("data:image/png;base64,%s");
     background-size: cover;
-    opacity : 0.8;
+    background-repeat: no-repeat;
+    background-position: center;
+    opacity : 0.4;
     }
     </style>
     ''' % bin_str
