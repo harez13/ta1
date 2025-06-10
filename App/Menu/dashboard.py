@@ -4,9 +4,10 @@ import seaborn as sns
 import matplotlib.pyplot as plt
 from streamlit_gsheets import GSheetsConnection
 
-conn = st.connection('gsheets', type=GSheetsConnection)
+# conn = st.connection('gsheets', type=GSheetsConnection)
 
-df=conn.read()
+# df=conn.read()
 
-# st.dataframe(df)
+# # st.dataframe(df)
 
+df = pd.read_csv('clean_data.csv')
