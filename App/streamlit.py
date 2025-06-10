@@ -17,15 +17,14 @@ def get_base64(file_path):
 if os.path.exists(file_path):
     bg_image = get_base64(file_path)
 
+
 st.markdown("""
     <style>
-    /* Buat kontainer utama memiliki posisi relatif agar overlay bisa ditempatkan */
     .main {
         position: relative;
         z-index: 1;
     }
 
-    /* Tambahkan overlay tipis gelap transparan di belakang konten */
     .main::before {
         content: "";
         position: absolute;
@@ -33,29 +32,27 @@ st.markdown("""
         left: 0;
         right: 0;
         bottom: 0;
-        background: rgba(0, 0, 0, 0.3); /* Overlay tipis semi-transparan */
+        background: rgba(0, 0, 0, 0.5); /* Lebih gelap untuk keterbacaan */
+        backdrop-filter: blur(4px);     /* Efek blur di latar belakang */
         z-index: 0;
-        pointer-events: none; /* Supaya overlay tidak mengganggu interaksi */
+        pointer-events: none;
     }
 
-    /* Buat konten utama tetap di atas overlay */
     .main > div {
         position: relative;
         z-index: 1;
     }
 
-    /* Header transparan */
     header[data-testid="stHeader"] {
         background-color: transparent;
         background-image: none;
         box-shadow: none;
     }
 
-    /* Sidebar transparan */
     section[data-testid="stSidebar"] {
-        background-color: rgba(0, 0, 0, 0.3);
+        background-color: rgba(0, 0, 0, 0.4);
+        backdrop-filter: blur(3px);
     }
-
     </style>
 """, unsafe_allow_html=True)
 
