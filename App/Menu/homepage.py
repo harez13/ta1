@@ -1,5 +1,16 @@
 import streamlit as st
-
+# Tambahkan CSS untuk menambahkan gambar latar belakang
+st.markdown(
+    """
+    <style>
+        [data-testid="stSidebar"] {
+            background-image: url("https://images.unsplash.com/photo-1507525428034-b723cf961d3e");
+            background-size: cover;
+        }
+    </style>
+    """,
+    unsafe_allow_html=True
+)
 st.set_page_config(layout="wide")
 
 # Judul utama
