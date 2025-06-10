@@ -19,7 +19,6 @@ if os.path.exists(file_path):
 
 st.markdown(f"""
     <style>
-    
 
         /* Latar belakang dengan gambar */
         [data-testid="stAppViewContainer"] > .main {{
@@ -28,17 +27,35 @@ st.markdown(f"""
             background-size: cover;
         }}
 
-        /* Overlay hitam semi-transparan */
-        [data-testid="stAppViewContainer"] > .main: {{
+        /* --- Overlay transparan seluruh halaman utama --- */
+        .main::before {{
             content: "";
-            position: absolute;
+            position: fixed;
             top: 0;
-            right: 0;
-            bottom: 0;
             left: 0;
-            background: rgba(0, 0, 0, 0.4); /* ubah angka ini untuk lebih terang/gelap */
-            z-index: 0;
+            width: 100vw;
+            height: 100vh;
+            background: rgba(0, 0, 0, 0.3);  /* Ubah opasitas sesuai kebutuhan */
+            z-index: -1;
         }}
+
+        /* --- Pastikan latar belakang main container transparan --- */
+        .st-emotion-cache-uf99v8 {{
+            background-color: transparent !important;
+        }}
+
+        /* --- Sidebar juga transparan jika ingin --- */
+        section[data-testid="stSidebar"] {{
+            background-color: rgba(0, 0, 0, 0.4);  /* Semi-transparan */
+        }}
+
+        /* --- Header transparan --- */
+        header[data-testid="stHeader"] {{
+        background-color: transparent;
+        background-image: none;
+        box-shadow: none;
+        }}
+
         /* Konten tetap tampil di atas overlay */
         [data-testid="stAppViewContainer"] > .main > div {{
             position: relative;
