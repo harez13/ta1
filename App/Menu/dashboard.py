@@ -271,83 +271,66 @@ elif option == "4. Frekuensi Parameter Pencemar Kritis per Stasiun":
     
 # --- Visualisasi 5 ---
 elif option == "5. Tren Harian PM2.5 per Stasiun":
-    df['hari'] = df['tanggal'].dt.day
+    # Sidebar filter
+    st.sidebar.header("🧭 Filter Bubble Chart")
+    param_kolom = st.sidebar.selectbox("Pilih parameter pencemar (nilai aktual):", df.columns[5:], help="Pilih kolom nilai numerik, seperti PM2.5 atau lainnya.")
 
-    # Konversi kategori ke angka
-    kategori_mapping = {
-        'BAIK': 1,
-        'SEDANG': 2,
-        'TIDAK SEHAT': 3,
-        'SANGAT TIDAK SEHAT': 4,
-        'BERBAHAYA': 5
-    }
-    df['kategori_nilai'] = df['kategori'].map(kategori_mapping)
-
-    # Sidebar
-    st.sidebar.header("🔧 Filter Visualisasi")
-
-    # Pilih bulan
-    bulan_tersedia = df['nama_bulan'].unique().tolist()
-    bulan_tersedia.sort()
-    pilih_bulan = st.sidebar.selectbox("Pilih bulan:", bulan_tersedia)
-
-    # Pilih stasiun
-    stasiun_tersedia = df['stasiun'].unique().tolist()
-    stasiun_terpilih = st.sidebar.selectbox("Pilih stasiun:", stasiun_tersedia)
+    # Pilih rentang tanggal
+    min_date = df['tanggal'].min()
+    max_date = df['tanggal'].max()
+    rentang_tanggal = st.sidebar.date_input("Rentang tanggal:", [min_date, max_date])
 
     # Filter data
-    df_filtered = df[(df['nama_bulan'] == pilih_bulan) & (df['stasiun'] == stasiun_terpilih)]
+    df_filtered = df[(df['tanggal'] >= pd.to_datetime(rentang_tanggal[0])) & (df['tanggal'] <= pd.to_datetime(rentang_tanggal[1]))]
 
-    # Hitung rata-rata harian
-    rata_harian = df_filtered.groupby('hari')[['kategori_nilai', 'nilai']].mean().reset_index()
+    # Bubble Chart
+    st.title("🫧 Bubble Chart: Tanggal vs Stasiun")
+    st.subheader(f"Parameter: {param_kolom} | Periode: {rentang_tanggal[0]} s.d. {rentang_tanggal[1]}")
 
-    # Visualisasi
-    st.title("📈 Tren Harian Kualitas Udara per Stasiun")
-    st.subheader(f"Bulan: {pilih_bulan} | Stasiun: {stasiun_terpilih}")
+    fig = px.scatter(
+        df_filtered,
+        x='tanggal',
+        y='stasiun',
+        size=param_kolom,
+        color=param_kolom,
+        hover_data=['tanggal', 'stasiun', param_kolom],
+        size_max=40,
+        color_continuous_scale='YlOrRd',
+        title="Visualisasi Intensitas Pencemaran Harian per Stasiun"
+    )
 
-    fig, ax1 = plt.subplots(figsize=(12, 6))
+    fig.update_layout(
+        xaxis_title='Tanggal',
+        yaxis_title='Stasiun Pemantauan',
+        legend_title='Nilai Pencemar',
+        height=600
+    )
 
-    # Plot kategori kualitas udara
-    sns.lineplot(data=rata_harian, x='hari', y='kategori_nilai', marker='o', label='Kategori Kualitas Udara', ax=ax1, color='tab:blue')
-    ax1.set_ylabel("Kategori (1=Baik, 5=Berbahaya)", color='tab:blue')
-    ax1.set_ylim(1, 5)
-    ax1.tick_params(axis='y', labelcolor='tab:blue')
+    st.plotly_chart(fig, use_container_width=True)
 
-    # Plot nilai aktual
-    ax2 = ax1.twinx()
-    sns.lineplot(data=rata_harian, x='hari', y='nilai', marker='s', label='Nilai Aktual', ax=ax2, color='tab:red')
-    ax2.set_ylabel("Nilai Aktual Kualitas Udara", color='tab:red')
-    ax2.tick_params(axis='y', labelcolor='tab:red')
-
-    # Finalisasi grafik
-    ax1.set_xlabel("Hari")
-    ax1.set_title(f"Tren Harian Kualitas Udara - {stasiun_terpilih} - {pilih_bulan}")
-    ax1.grid(True)
-    fig.tight_layout()
-    st.pyplot(fig)
-
-    # Penjelasan
+    # Penjelasan visualisasi
     st.markdown("""
     ---
 
-    ### ℹ️ Penjelasan Visualisasi:
+    ### 🧠 Penjelasan Bubble Chart
 
-    Grafik menampilkan **dua tren sekaligus** untuk stasiun dan bulan yang dipilih:
-
-    - 🔵 **Garis Biru (kiri):** menunjukkan rata-rata **kategori kualitas udara** harian (1 = Baik, 5 = Berbahaya).
-    - 🔴 **Garis Merah (kanan):** menampilkan **nilai aktual kualitas udara** (angka numerik mentah).
-
-    ---
-
-    ### 📌 Tujuan:
-    - Memantau **perubahan kualitas udara harian** secara detail.
-    - Membandingkan **skor kategori vs. nilai aktual** agar lebih objektif.
-    - Mengetahui **hari-hari rawan polusi** dalam satu bulan.
+    - **Sumbu X:** Tanggal pengukuran.
+    - **Sumbu Y:** Nama stasiun pemantauan.
+    - **Ukuran gelembung:** Besarnya nilai parameter pencemar (misalnya PM2.5, PM10, CO).
+    - **Warna:** Mewakili tingkat pencemaran (semakin merah, semakin tinggi nilainya).
 
     ---
 
-    ### 🧠 Insight yang Bisa Diperoleh:
-    - Pola lonjakan nilai aktual bisa memberi peringatan dini meskipun kategori masih tampak “Sedang”.
-    - Cocok untuk **pemantauan harian** dan pengambilan keputusan cepat (misal: penutupan jalan, himbauan aktivitas luar ruangan).
+    ### 📌 Fungsi Visualisasi:
+    - Mengidentifikasi **puncak pencemaran** di hari dan stasiun tertentu.
+    - Melihat **tren lonjakan** atau kejadian **anomali lokal** (misalnya satu stasiun ekstrem di hari tertentu).
+    - Membandingkan **aktivitas pencemar** antar stasiun dalam satu waktu.
+
+    ---
+
+    ### 🎯 Insight yang Bisa Diperoleh:
+    - Titik-titik besar pada satu tanggal = kemungkinan **kejadian ekstrem lokal**.
+    - Jika semua stasiun memiliki gelembung besar di hari yang sama → indikasi **pencemaran regional**.
+    - Pola-pola berulang mingguan/bulanan bisa dianalisis lebih lanjut.
 
     """)
