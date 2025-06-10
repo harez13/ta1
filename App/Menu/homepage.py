@@ -318,7 +318,7 @@ bg_image = get_base64_of_bin_file("Images/tom-barrett--bSucp2nUdQ-unsplash (1).j
 st.markdown(
     f"""
     <style>
-        [data-testid="stAppViewContainer"] > .main {{
+        [data-testid="stAppViewContainer"]{{
             background-image: url("data:image/jpg;base64,{bg_image}");
             background-size: cover;
             background-repeat: no-repeat;
