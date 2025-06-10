@@ -1,32 +1,6 @@
 # Library
 import streamlit as st
 
-import base64
-
-# Fungsi untuk mengonversi gambar ke base64
-def get_base64_of_bin_file(bin_file):
-    with open(bin_file, 'rb') as f:
-        data = f.read()
-    return base64.b64encode(data).decode()
-
-# Konversi gambar lokal ke base64
-bg_image = get_base64_of_bin_file("App\tom-barrett--bSucp2nUdQ-unsplash (1).jpg")  # Ganti dengan nama file kamu
-
-# Sisipkan CSS untuk ubah background halaman utama (tanpa sidebar)
-st.markdown(
-    f"""
-    <style>
-        [data-testid="stAppViewContainer"] > .main {{
-            background-image: url("data:image/jpg;base64,{bg_image}");
-            background-size: cover;
-            background-repeat: no-repeat;
-            background-position: center;
-        }}
-    </style>
-    """,
-    unsafe_allow_html=True
-)
-
 # -- Page Setup --
 
 tentang_saya = st.Page(
