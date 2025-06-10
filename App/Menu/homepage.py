@@ -323,6 +323,7 @@ st.markdown(
             background-size: cover;
             background-repeat: no-repeat;
             background-position: center;
+            opacity: 0.8;
         }}
     </style>
     """,
