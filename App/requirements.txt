@@ -44,7 +44,7 @@ scipy
 seaborn
 setuptools
 smmap
-streamlit
+streamlit==1.36.*
 tenacity
 threadpoolctl
 toml
