@@ -7,39 +7,31 @@ st.set_page_config(layout="wide")
 import os
 
 
-# Fungsi untuk mengatur background dari gambar lokal
-def set_bg_from_local(image_file):
-    with open(image_file, "rb") as img:
-        encoded = base64.b64encode(img.read()).decode()
 
-    st.markdown(
-        f"""
-        <style>
-        .stApp {{
-            background-image: url("data:image/png;base64,{encoded}");
-            background-size: cover;
-            background-position: center;
-            background-attachment: fixed;
-        }}
+# Fungsi untuk mengubah file gambar lokal jadi base64
+def get_base64_of_bin_file(bin_file):
+    with open(bin_file, 'rb') as f:
+        data = f.read()
+    return base64.b64encode(data).decode()
 
-        /* Membuat header transparan */
-        header {{
-            background: rgba(0, 0, 0, 0); /* transparan penuh */
-        }}
+# Masukkan path ke file gambar lokal kamu (contoh: "background.jpg")
+image_path = "Images/abhishek-koli-DsxD_bTq8x0-unsplash.jpg"
+background_image_base64 = get_base64_of_bin_file(image_path)
 
-        /* Opsional: membuat main container semi-transparan agar konten tetap fokus */
-        .main {{
-            background-color: rgba(255, 255, 255, 0.8);
-            padding: 2rem;
-            border-radius: 12px;
-        }}
-        </style>
-        """,
-        unsafe_allow_html=True
-    )
-
-# Terapkan background
-set_bg_from_local("Images/abhishek-koli-DsxD_bTq8x0-unsplash.jpg")  # ganti dengan nama file lokalmu
+# Sisipkan CSS ke Streamlit
+st.markdown(
+    f"""
+    <style>
+    .stApp {{
+        background-image: url("data:image/jpg;base64,{background_image_base64}");
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+    }}
+    </style>
+    """,
+    unsafe_allow_html=True
+)
 
 
 # -- Page Setup --
