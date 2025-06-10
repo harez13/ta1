@@ -1,11 +1,6 @@
 # Library
 import streamlit as st
-import joblib
-from PIL import Image
-from datetime import datetime
-import pytz
-from pytz import timezone
-import base64
+
 
 
 # -- Page Setup --
@@ -13,6 +8,12 @@ import base64
 tentang_saya = st.Page(
     'Menu/tentang_saya.py',
     title = 'Tentang Saya',
+)
+
+tentang_saya = st.Page(
+    'Menu/homepage.py',
+    title = 'Tentang Saya',
+    default=True
 )
 
 project1_page = st.Page(
