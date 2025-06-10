@@ -135,3 +135,54 @@ if option == "1. Korelasi Antar Parameter Pencemar":
     Sumber : [IQAir]('https://www.iqair.com/id/support/knowledge-base')
     """)
 
+# --- Visualisasi 2 ---
+elif option == "2. Rata-Rata Bulanan Parameter Pencemar":
+    # Sidebar: Filter stasiun
+st.title("Tren Bulanan Kategori Kualitas Udara")
+st.sidebar.header("Filter")
+stasiun_list = df['stasiun'].unique()
+selected_stasiun = st.sidebar.selectbox("Pilih Stasiun", stasiun_list)
+
+# Filter data
+df_filtered = df[df['stasiun'] == selected_stasiun]
+
+# Hitung jumlah kategori per bulan
+kategori_bulanan = df_filtered.groupby(['tahun', 'bulan', 'kategori']).size().reset_index(name='jumlah')
+kategori_bulanan['periode'] = pd.to_datetime(dict(year=kategori_bulanan['tahun'], 
+                                                  month=kategori_bulanan['bulan'], day=1))
+
+# Plot
+plt.figure(figsize=(12, 6))
+sns.set(style="whitegrid")
+
+for kategori in kategori_bulanan['kategori'].unique():
+    df_kat = kategori_bulanan[kategori_bulanan['kategori'] == kategori]
+    sns.lineplot(data=df_kat, x='periode', y='jumlah', marker='o', label=kategori)
+    for i in range(len(df_kat)):
+        plt.text(df_kat['periode'].iloc[i], df_kat['jumlah'].iloc[i] + 0.3,
+                 str(df_kat['jumlah'].iloc[i]), ha='center', fontsize=8)
+
+plt.title(f"Tren Bulanan Kategori Kualitas Udara - Stasiun {selected_stasiun}")
+plt.xlabel("Periode (Bulan)")
+plt.ylabel("Jumlah Hari per Kategori")
+plt.xticks(rotation=45)
+plt.tight_layout()
+
+st.pyplot(plt)
+
+# Penjelasan kategori kualitas udara
+st.subheader("Penjelasan Kategori Kualitas Udara")
+
+st.markdown("""
+Berikut ini adalah kategori kualitas udara berdasarkan konsentrasi partikulat (misalnya PM2.5 atau PM10):
+
+| Kategori       | Deskripsi                                                                 |
+|----------------|---------------------------------------------------------------------------|
+| **Baik**       | Tidak berdampak pada kesehatan.                                           |
+| **Sedang**     | Tidak berpengaruh bagi masyarakat umum, tetapi berdampak untuk kelompok sensitif. |
+| **Tidak Sehat**| Berdampak pada kelompok sensitif dan bisa berdampak ringan pada masyarakat umum. |
+| **Sangat Tidak Sehat** | Berdampak serius pada kelompok sensitif dan masyarakat umum.      |
+| **Berbahaya**  | Kondisi darurat kesehatan. Semua orang bisa terdampak.                   |
+
+Kategori di atas bisa disesuaikan dengan sistem seperti **ISPU** (Indeks Standar Pencemar Udara) Indonesia.
+""")
