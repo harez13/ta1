@@ -75,13 +75,14 @@ PM2.5 merupakan partikel yang mengambang di udara dengan ukuran diameter 2,5 mik
 - Proses industri dan reaksi kimia
 
 **Bagaimana memengaruhi kesehatan?**
+                
 ***Efek jangka pendek***:
 - Iritasi pada mata, tenggorokan, dan hidung
 - Detak jantung tidak teratur
 - Batuk, nyeri dada, sakit tenggorokan, sesak napas
 - Serangan asma
                 
-***Efek jangka pendek***:
+***Efek jangka panjang***:
 - Penyakit pernafasan seperti bronkitis, asma, emfisema
 - Kerusakan jaringan paru-paru
 - Kanker
@@ -104,6 +105,7 @@ Partikel dengan ukuran hingga 10 mikrometer (termasuk debu, jelaga, garam, logam
 - Gas dan partikel dari kendaraan
 
 **Bagaimana memengaruhi kesehatan?**
+                
 ***Efek jangka pendek***:
 - Kesulitan bernapas
 - Sakit dada
@@ -111,7 +113,7 @@ Partikel dengan ukuran hingga 10 mikrometer (termasuk debu, jelaga, garam, logam
 - Sakit tenggorokan
 - Hidung tersumbat
                 
-***Efek jangka pendek***:
+***Efek jangka panjang***:
 - Kerusakan jaringan paru-paru
 - Kanker
 - Asma
