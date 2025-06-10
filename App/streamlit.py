@@ -4,6 +4,55 @@ import base64
 
 st.set_page_config(layout="wide")
 
+import os
+
+st.set_page_config(layout="wide")
+
+# === Ganti nama file dengan file kamu ===
+file_path = "Images/tom-barrett--bSucp2nUdQ-unsplash (1).jpg"
+
+def get_base64(file_path):
+    with open(file_path, "rb") as f:
+        data = f.read()
+    return base64.b64encode(data).decode()
+
+if os.path.exists(file_path):
+    bg_image = get_base64(file_path)
+
+    st.markdown(
+        f"""
+        <style>
+        /* Latar belakang dengan gambar */
+        [data-testid="stAppViewContainer"] > .main {{
+            position: relative;
+            background-image: url("data:image/png;base64,{bg_image}");
+            background-size: cover;
+            background-position: center;
+        }}
+
+        /* Overlay hitam semi-transparan */
+        [data-testid="stAppViewContainer"] > .main::before {{
+            content: "";
+            position: absolute;
+            top: 0;
+            right: 0;
+            bottom: 0;
+            left: 0;
+            background: rgba(0, 0, 0, 0.4); /* ubah angka ini untuk lebih terang/gelap */
+            z-index: 0;
+        }}
+
+        /* Konten tetap tampil di atas overlay */
+        [data-testid="stAppViewContainer"] > .main > div {{
+            position: relative;
+            z-index: 1;
+        }}
+        </style>
+        """,
+        unsafe_allow_html=True
+    )
+else:
+    st.error("File gambar tidak ditemukan.")
 
 # -- Page Setup --
 
@@ -60,26 +109,3 @@ pg = st.navigation(
 #-- Run Navigation
 pg.run()
 
-# Fungsi untuk konversi gambar lokal ke base64
-def get_base64_of_bin_file(bin_file):
-    with open(bin_file, 'rb') as f:
-        data = f.read()
-    return base64.b64encode(data).decode()
-
-# Ganti dengan nama file gambar lokal kamu
-sidebar_bg = get_base64_of_bin_file("Images/tom-barrett--bSucp2nUdQ-unsplash (1).jpg")
-
-# Sisipkan CSS untuk sidebar
-st.markdown(
-    f"""
-    <style>
-        [data-testid="stSidebar"] {{
-            background-image: url("data:image/jpg;base64,{sidebar_bg}");
-            background-size: cover;
-            background-position: center;
-            opacity: 0.8;
-        }}
-    </style>
-    """,
-    unsafe_allow_html=True
-)
