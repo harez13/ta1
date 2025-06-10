@@ -26,20 +26,9 @@ st.markdown(f"""
             position: relative;
             background-image: url("data:image/png;base64,{bg_image}");
             background-size: cover;
-            background-position: center;
         }}
 
-        /* Overlay hitam semi-transparan */
-        [data-testid="stAppViewContainer"] > .main::before {{
-            content: "";
-            position: absolute;
-            top: 0;
-            right: 0;
-            bottom: 0;
-            left: 0;
-            background: rgba(0, 0, 0, 0.4); /* ubah angka ini untuk lebih terang/gelap */
-            z-index: 0;
-        }}
+       
 
         /* Konten tetap tampil di atas overlay */
         [data-testid="stAppViewContainer"] > .main > div {{
