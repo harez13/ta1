@@ -4,7 +4,7 @@ import seaborn as sns
 import matplotlib.pyplot as plt
 
 # Load data
-df = pd.read_csv("Models\clean_data.csv")
+df = pd.read_csv("Menu/clean_data.csv")
 df['tanggal'] = pd.to_datetime(df['tanggal'], dayfirst=True, errors='coerce')
 df['tahun'] = df['tanggal'].dt.year
 df['bulan'] = df['tanggal'].dt.month
