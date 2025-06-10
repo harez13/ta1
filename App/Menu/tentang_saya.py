@@ -22,7 +22,7 @@ def set_png_as_page_bg(png_file):
     background-size: cover;
     background-repeat: no-repeat;
     background-position: center;
-    opacity : 0.4;
+    opacity : 0.9;
     }
     </style>
     ''' % bin_str
