@@ -46,7 +46,6 @@ seaborn
 setuptools
 smmap
 streamlit==1.36.*
-streamlit.dataframe_util
 st-gsheets-connection
 tenacity
 threadpoolctl
