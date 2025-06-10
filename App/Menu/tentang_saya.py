@@ -38,3 +38,4 @@ Saya seorang analis lingkungan yang fokus pada pemantauan dan analisis kualitas 
 - Visualisasi Data Lingkungan
 - Pemodelan & Analisis Kualitas Udara
 """)
+
