@@ -16,6 +16,11 @@ homepage = st.Page(
     default=True
 )
 
+dataset = st.Page(
+    'Menu/dataset.py',
+    title = 'Dataset',
+)
+
 project1_page = st.Page(
     'Menu/main_project.py',
     title = 'Project',
@@ -33,7 +38,7 @@ project2_page = st.Page(
 pg = st.navigation(
     {
         'Info' : [tentang_saya, homepage],
-        'Projects' : [project1_page, project2_page]
+        'Projects' : [project1_page, project2_page, dataset]
     }
 )
 
