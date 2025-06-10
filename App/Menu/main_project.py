@@ -39,16 +39,6 @@ st.markdown("<h1 style='text-align: center;'>Prediksi Kualitas Udara Jakarta</h1
 st.write("\n\n\n\n\n\n\n\n") 
 
 # Sidebar contact
-with st.sidebar:
-    st.title("Contact")
-    st.write("")
-    st.sidebar.markdown("**Phone** +6285727600672")
-    st.write("")
-    st.sidebar.markdown("**Email** riyanzaenal411@gmail.com")
-    st.write("")
-    st.sidebar.markdown("**Github** https://github.com/RiyZ411")
-    st.write("")
-    st.sidebar.markdown("**Linkedin** https://www.linkedin.com/in/riyan-zaenal-arifin-38a587241/")
    
 # Container
 with st.container():   
