@@ -305,23 +305,22 @@ Walaupun kedua pengujian tersebut mengungkap bahwa masker bedah secara signifika
 """)
 
 
-# Fungsi untuk konversi gambar ke base64
+# Fungsi untuk konversi gambar lokal ke base64
 def get_base64_of_bin_file(bin_file):
     with open(bin_file, 'rb') as f:
         data = f.read()
     return base64.b64encode(data).decode()
 
-# Ganti dengan nama file gambar kamu
-bg_image = get_base64_of_bin_file("Images/tom-barrett--bSucp2nUdQ-unsplash (1).jpg")
+# Ganti dengan nama file gambar lokal kamu
+sidebar_bg = get_base64_of_bin_file("sidebar_bg.jpg")
 
-# CSS: gambar latar belakang hanya untuk konten utama (.main), tanpa mengubah elemen lain
+# Sisipkan CSS untuk sidebar
 st.markdown(
     f"""
     <style>
-        [data-testid="stAppViewContainer"]{{
-            background-image: url("data:image/jpg;base64,{bg_image}");
+        [data-testid="stSidebar"] {{
+            background-image: url("data:image/jpg;base64,{sidebar_bg}");
             background-size: cover;
-            background-repeat: no-repeat;
             background-position: center;
             opacity: 0.8;
         }}
