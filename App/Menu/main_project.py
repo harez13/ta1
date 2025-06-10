@@ -101,9 +101,6 @@ with st.form("predict"):
         param = ["PM10", "PM25", "SO2", "CO", "O3", "NO2"]
         pilihan = st.selectbox('Masukkan Parameter Pencemar Kritis', param)
 
-    # Tampilkan input
-    st.subheader("Data yang Dikirim ke Model:")
-    st.write(input_df)
 
     # Tambahkan tombol
     submitted = st.form_submit_button("Predict")
