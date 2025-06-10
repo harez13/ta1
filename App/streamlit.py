@@ -1,14 +1,5 @@
 # Library
 import streamlit as st
-from pathlib import Path
-
-# Fungsi untuk load custom CSS
-def load_local_css(file_name):
-    with open(file_name) as f:
-        st.markdown(f"<style>{f.read()}</style>", unsafe_allow_html=True)
-
-# Load CSS dari file
-load_local_css("App/style.css")
 
 # -- Page Setup --
 
