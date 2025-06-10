@@ -8,8 +8,6 @@ from pytz import timezone
 import base64
 
 
-st.title('Test')
-
 # -- Page Setup --
 
 tentang_saya = st.Page(
