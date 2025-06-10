@@ -4,6 +4,7 @@ import matplotlib.pyplot as plt
 import seaborn as sns
 from sklearn.decomposition import PCA
 from sklearn.preprocessing import StandardScaler
+import plotly.express as px
 
 # Load data
 df = pd.read_csv("clean_data.csv")
