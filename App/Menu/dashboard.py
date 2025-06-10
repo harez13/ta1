@@ -56,10 +56,46 @@ plt.tight_layout()
 st.pyplot(plt)
 
 # Penjelasan matriks
-st.subheader("Penjelasan Matriks")
-st.markdown("""
-- **PM2.5 (pm_duakomalima)**: Partikulat udara berdiameter kurang dari 2.5 mikron, dapat menembus jauh ke dalam saluran pernapasan.
-- **PM10 (pm_sepuluh)**: Partikulat udara berdiameter kurang dari 10 mikron, berasal dari debu jalanan, asap kendaraan, dll.
-- Nilai yang ditampilkan adalah **rata-rata bulanan** berdasarkan data harian.
-- Grafik menunjukkan tren musiman dan perbandingan antara PM2.5 dan PM10 di stasiun terpilih.
+st.subheader("Penjelasan PM2.5 dan PM10")
+
+# Buat dua kolom
+col1, col2 = st.columns(2)
+
+with col1:
+    st.markdown("### PM2.5")
+    st.markdown("_Partikel halus (≤ 2.5 µm)_")
+    st.markdown("""
+**Apa itu PM2.5?**  
+PM2.5 merupakan partikel yang mengambang di udara dengan ukuran diameter 2,5 mikrometer atau kurang. Ukurannya sangat kecil sehingga dapat diserap ke dalam aliran darah saat bernapas dan menimbulkan ancaman kesehatan besar.
+
+**Dari mana ia datang?**
+- Pembakaran bahan bakar (misalnya di pembangkit listrik)
+- Asap dan jelaga dari kebakaran hutan atau limbah
+- Emisi kendaraan bermotor
+- Proses industri dan reaksi kimia
+
+**Bagaimana memengaruhi kesehatan?**
+- Iritasi pada mata, tenggorokan, dan hidung
+- Detak jantung tidak teratur
+- Batuk, sesak napas, serangan asma
 """)
+
+with col2:
+    st.markdown("### PM10")
+    st.markdown("_Partikel kasar (≤ 10 µm)_")
+    st.markdown("""
+**Apa itu PM10?**  
+Partikel dengan ukuran hingga 10 mikrometer (termasuk debu, jelaga, garam, logam, dll). PM10 lebih besar dan kasar dibandingkan PM2.5.
+
+**Dari mana ia datang?**
+- Debu dari konstruksi dan pertanian
+- Debu jalanan yang tertiup angin
+- Asap dari kebakaran atau pembakaran
+- Gas dan partikel dari kendaraan
+
+**Bagaimana memengaruhi kesehatan?**
+- Sulit bernapas, sakit dada
+- Ketidaknyamanan saat bernapas
+- Hidung tersumbat, sakit tenggorokan
+""")
+
