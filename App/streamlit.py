@@ -10,9 +10,9 @@ tentang_saya = st.Page(
     title = 'Tentang Saya',
 )
 
-tentang_saya = st.Page(
+homepage = st.Page(
     'Menu/homepage.py',
-    title = 'Tentang Saya',
+    title = 'Homepage',
     default=True
 )
 
@@ -32,7 +32,7 @@ project2_page = st.Page(
 #-- Navigation Setup With Sections
 pg = st.navigation(
     {
-        'Info' : [tentang_saya],
+        'Info' : [tentang_saya, homepage],
         'Projects' : [project1_page, project2_page]
     }
 )
