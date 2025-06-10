@@ -2,6 +2,8 @@ import streamlit as st
 import pandas as pd
 import matplotlib.pyplot as plt
 import seaborn as sns
+from sklearn.decomposition import PCA
+from sklearn.preprocessing import StandardScaler
 
 # Load data
 df = pd.read_csv("clean_data.csv")
@@ -188,59 +190,53 @@ elif option == "2. Rata-Rata Bulanan Parameter Pencemar":
 
 # --- Visualisasi 3 ---
 elif option == "3. Distribusi Kategori Kualitas Udara per Stasiun":
-    st.title("Kaitan Polutan dan Kategori Kualitas Udara")
+    st.title("Visualisasi Semua Polutan dan Kaitannya dengan Kategori Kualitas Udara")
+    # Pilih kolom polutan yang tersedia
+    polutan_cols = ['pm_sepuluh', 'pm_duakomalima', 'nitrogen_dioksida', 'sulfur_dioksida', 'karbon_monoksida', 'ozon']
+    available_cols = [col for col in polutan_cols if col in df.columns]
 
-    # Pilih polutan
-    polutan_opsi = {
-        'PM2.5': 'pm_duakomalima',
-        'PM10': 'pm_sepuluh'
-    }
-    polutan_terpilih = st.selectbox("Pilih Jenis Polutan", list(polutan_opsi.keys()))
-    kolom_polutan = polutan_opsi[polutan_terpilih]
+    # Bersihkan data
+    df_filtered = df.dropna(subset=available_cols + ['kategori'])
 
-    # Pastikan kolom kategori dan polutan tidak kosong
-    df_filtered = df.dropna(subset=[kolom_polutan, 'kategori'])
+    # PCA untuk visualisasi 2D
+    scaler = StandardScaler()
+    X_scaled = scaler.fit_transform(df_filtered[available_cols])
 
-    # Scatter plot
-    plt.figure(figsize=(10, 5))
-    sns.scatterplot(data=df_filtered, x=kolom_polutan, y='kategori', hue='kategori', palette='Set2', s=60, alpha=0.7)
-    plt.xlabel(f"Konsentrasi {polutan_terpilih} (µg/m³)")
-    plt.ylabel("Kategori Kualitas Udara")
-    plt.title(f"Hubungan {polutan_terpilih} terhadap Kategori Kualitas Udara")
+    pca = PCA(n_components=2)
+    components = pca.fit_transform(X_scaled)
+
+    df_filtered['PCA1'] = components[:, 0]
+    df_filtered['PCA2'] = components[:, 1]
+
+    # Plot PCA
+    plt.figure(figsize=(10, 6))
+    sns.scatterplot(data=df_filtered, x='PCA1', y='PCA2', hue='kategori', palette='Set2', alpha=0.7, s=70)
+    plt.title("Pemetaan Kategori Kualitas Udara Berdasarkan Semua Polutan (PCA)")
+    plt.xlabel("Komponen Utama 1")
+    plt.ylabel("Komponen Utama 2")
     plt.grid(True)
     st.pyplot(plt)
 
-    # Penjelasan tabel ISPU
-    st.subheader("Tabel Indeks Standar Pencemar Udara (ISPU)")
-
-    if polutan_terpilih == 'PM2.5':
-        st.markdown("""
-        **Kategori berdasarkan PM2.5 (µg/m³):**
-
-        | Kategori              | Rentang Konsentrasi |
-        |-----------------------|---------------------|
-        | Baik                  | 0 – 15              |
-        | Sedang                | 16 – 40             |
-        | Tidak Sehat untuk Kelompok Sensitif | 41 – 65       |
-        | Tidak Sehat           | 66 – 150            |
-        | Sangat Tidak Sehat    | 151 – 250           |
-        | Berbahaya             | > 250               |
-        """)
-    else:
-        st.markdown("""
-        **Kategori berdasarkan PM10 (µg/m³):**
-
-        | Kategori              | Rentang Konsentrasi |
-        |-----------------------|---------------------|
-        | Baik                  | 0 – 50              |
-        | Sedang                | 51 – 150            |
-        | Tidak Sehat untuk Kelompok Sensitif | 151 – 250     |
-        | Tidak Sehat           | 251 – 350           |
-        | Sangat Tidak Sehat    | 351 – 420           |
-        | Berbahaya             | > 420               |
-        """)
+    # Penjelasan Ambang Polutan
+    st.subheader("Tabel Ambang Batas Polutan Menurut ISPU")
 
     st.markdown("""
-    Konsentrasi polutan digunakan sebagai dasar klasifikasi kualitas udara menurut standar ISPU.  
-    Visualisasi ini membantu melihat hubungan antara nilai polutan dan kategori yang ditetapkan.
+    Berikut ambang batas kualitas udara berdasarkan konsentrasi polutan:
+
+    | Polutan | Satuan | Baik | Sedang | Tidak Sehat (Sensitif) | Tidak Sehat | Sangat Tidak Sehat | Berbahaya |
+    |---------|--------|------|--------|-------------------------|-------------|--------------------|-----------|
+    | PM2.5   | µg/m³  | 0–15 | 16–40  | 41–65                  | 66–150     | 151–250            | >250      |
+    | PM10    | µg/m³  | 0–50 | 51–150 | 151–250                | 251–350    | 351–420            | >420      |
+    | NO₂     | µg/m³  | 0–53 | 54–100 | 101–360                | 361–649    | 650–1249           | >1250     |
+    | SO₂     | µg/m³  | 0–50 | 51–150 | 151–350                | 351–420    | 421–500            | >500      |
+    | CO      | mg/m³  | 0–5  | 6–10   | 11–17                  | 18–34      | 35–45              | >45       |
+    | O₃      | µg/m³  | 0–120| 121–180| 181–240                | 241–300    | 301–400            | >400      |
+    | HC      | ppm    | 0–160| 161–220| 221–330                | 331–500    | 501–700            | >700      |
+    """)
+
+    st.markdown("""
+    Visualisasi di atas menggunakan teknik **PCA** untuk mereduksi 7 dimensi polutan menjadi 2 dimensi,  
+    sehingga memudahkan dalam melihat **pengelompokan kategori kualitas udara**.
+
+    Jika titik-titik dari kategori tertentu terkonsentrasi di area tertentu, artinya kombinasi polutan tersebut berpengaruh besar terhadap kualitas udara.
     """)
