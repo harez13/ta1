@@ -27,7 +27,12 @@ df_filtered = df[df['stasiun'] == selected_stasiun]
 monthly_avg = df_filtered.groupby(['tahun', 'bulan'])[['pm_duakomalima', 'pm_sepuluh']].mean().reset_index()
 
 # Gabungkan tahun dan bulan menjadi satu kolom untuk x-axis
-monthly_avg['periode'] = pd.to_datetime(monthly_avg[['tahun', 'bulan']].assign(day=1))
+# Pastikan tahun dan bulan bertipe integer
+monthly_avg['tahun'] = monthly_avg['tahun'].astype(int)
+monthly_avg['bulan'] = monthly_avg['bulan'].astype(int)
+
+# Gabungkan ke datetime
+monthly_avg['periode'] = pd.to_datetime(dict(year=monthly_avg['tahun'], month=monthly_avg['bulan'], day=1))
 
 # Plot
 plt.figure(figsize=(12, 6))
