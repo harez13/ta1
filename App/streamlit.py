@@ -12,8 +12,7 @@ file_path = "Images/tom-barrett--bSucp2nUdQ-unsplash (1).jpg"
 
 def get_base64(file_path):
     with open(file_path, "rb") as f:
-        data = f.read()
-    return base64.b64encode(data).decode()
+        return base64.b64encode(f.read()).decode()
 
 if os.path.exists(file_path):
     bg_image = get_base64(file_path)
@@ -21,15 +20,15 @@ if os.path.exists(file_path):
     st.markdown(
         f"""
         <style>
-        /* Latar belakang dengan gambar */
-        [data-testid="stAppViewContainer"] > .main {{
-            position: relative;
+        /* Terapkan background ke seluruh app */
+        html, body, [data-testid="stApp"] {{
             background-image: url("data:image/png;base64,{bg_image}");
             background-size: cover;
+            background-repeat: no-repeat;
             background-position: center;
         }}
 
-        /* Overlay hitam semi-transparan */
+        /* Buat overlay hanya di konten utama */
         [data-testid="stAppViewContainer"] > .main::before {{
             content: "";
             position: absolute;
@@ -37,7 +36,7 @@ if os.path.exists(file_path):
             right: 0;
             bottom: 0;
             left: 0;
-            background: rgba(0, 0, 0, 0.4); /* ubah angka ini untuk lebih terang/gelap */
+            background: rgba(0, 0, 0, 0.4); /* Overlay gelap */
             z-index: 0;
         }}
 
@@ -51,7 +50,7 @@ if os.path.exists(file_path):
         unsafe_allow_html=True
     )
 else:
-    st.error("File gambar tidak ditemukan.")
+    st.error("Gagal menemukan file gambar.")
 
 # -- Page Setup --
 
