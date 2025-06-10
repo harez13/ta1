@@ -17,32 +17,17 @@ def get_base64(file_path):
 if os.path.exists(file_path):
     bg_image = get_base64(file_path)
 
-    st.markdown(
-        f"""
-        <style>
-        /* Overlay semi-transparan untuk area konten utama */
-        [data-testid="stAppViewContainer"] > .main::before && [data-testid="stHeader"] {{
-            content: ""
-            position: absolute;
-            top: 0;
-            bottom: 0;
-            right: 0;
-            left: 0;
-            background-color: rgba(0, 0, 0, 0.4);
-            z-index: 0;
-        }}
+st.markdown(f"""
+    <style>
+    /* Ubah background header Streamlit */
+    header[data-testid="stHeader"] {{
+        background: rgba(0, 0, 0, 0.6);  /* Atau bisa pakai image atau gradient */
+        backdrop-filter: blur(4px);      /* Opsional, bikin efek kaca */
+        border-bottom: 1px solid rgba(255,255,255,0.2);
+    }}
 
-        /* Konten tetap tampil di atas overlay */
-        [data-testid="stAppViewContainer"] > .main > div {{
-            position: relative;
-            z-index: 1;
-        }}
-        </style>
-        """,
-        unsafe_allow_html=True
-    )
-else:
-    st.error("Gambar tidak ditemukan.")
+    </style>
+""", unsafe_allow_html=True)
 
 # -- Page Setup --
 
