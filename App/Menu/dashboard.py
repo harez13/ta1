@@ -28,7 +28,6 @@ option = st.sidebar.selectbox(
 if option == "1. Korelasi Antar Parameter Pencemar":
     # Sidebar filter
     st.title("Tren Bulanan PM2.5 dan PM10 per Stasiun")
-    st.sidebar.header("Filter Data")
 
     stasiun_list = df['stasiun'].unique()
     selected_stasiun = st.selectbox("Pilih Stasiun", stasiun_list)
@@ -139,7 +138,7 @@ if option == "1. Korelasi Antar Parameter Pencemar":
 elif option == "2. Rata-Rata Bulanan Parameter Pencemar":
     # Sidebar: Filter stasiun
     st.title("Tren Bulanan Kategori Kualitas Udara")
-    st.sidebar.header("Filter")
+
     stasiun_list = df['stasiun'].unique()
     selected_stasiun = st.selectbox("Pilih Stasiun", stasiun_list)
 
@@ -185,4 +184,63 @@ elif option == "2. Rata-Rata Bulanan Parameter Pencemar":
     | **Berbahaya**  | Kondisi darurat kesehatan. Semua orang bisa terdampak.                   |
 
     Kategori di atas bisa disesuaikan dengan sistem seperti **ISPU** (Indeks Standar Pencemar Udara) Indonesia.
+    """)
+
+# --- Visualisasi 3 ---
+elif option == "3. Distribusi Kategori Kualitas Udara per Stasiun":
+    st.title("Kaitan Polutan dan Kategori Kualitas Udara")
+
+    # Pilih polutan
+    polutan_opsi = {
+        'PM2.5': 'pm_duakomalima',
+        'PM10': 'pm_sepuluh'
+    }
+    polutan_terpilih = st.selectbox("Pilih Jenis Polutan", list(polutan_opsi.keys()))
+    kolom_polutan = polutan_opsi[polutan_terpilih]
+
+    # Pastikan kolom kategori dan polutan tidak kosong
+    df_filtered = df.dropna(subset=[kolom_polutan, 'kategori'])
+
+    # Scatter plot
+    plt.figure(figsize=(10, 5))
+    sns.scatterplot(data=df_filtered, x=kolom_polutan, y='kategori', hue='kategori', palette='Set2', s=60, alpha=0.7)
+    plt.xlabel(f"Konsentrasi {polutan_terpilih} (µg/m³)")
+    plt.ylabel("Kategori Kualitas Udara")
+    plt.title(f"Hubungan {polutan_terpilih} terhadap Kategori Kualitas Udara")
+    plt.grid(True)
+    st.pyplot(plt)
+
+    # Penjelasan tabel ISPU
+    st.subheader("Tabel Indeks Standar Pencemar Udara (ISPU)")
+
+    if polutan_terpilih == 'PM2.5':
+        st.markdown("""
+        **Kategori berdasarkan PM2.5 (µg/m³):**
+
+        | Kategori              | Rentang Konsentrasi |
+        |-----------------------|---------------------|
+        | Baik                  | 0 – 15              |
+        | Sedang                | 16 – 40             |
+        | Tidak Sehat untuk Kelompok Sensitif | 41 – 65       |
+        | Tidak Sehat           | 66 – 150            |
+        | Sangat Tidak Sehat    | 151 – 250           |
+        | Berbahaya             | > 250               |
+        """)
+    else:
+        st.markdown("""
+        **Kategori berdasarkan PM10 (µg/m³):**
+
+        | Kategori              | Rentang Konsentrasi |
+        |-----------------------|---------------------|
+        | Baik                  | 0 – 50              |
+        | Sedang                | 51 – 150            |
+        | Tidak Sehat untuk Kelompok Sensitif | 151 – 250     |
+        | Tidak Sehat           | 251 – 350           |
+        | Sangat Tidak Sehat    | 351 – 420           |
+        | Berbahaya             | > 420               |
+        """)
+
+    st.markdown("""
+    Konsentrasi polutan digunakan sebagai dasar klasifikasi kualitas udara menurut standar ISPU.  
+    Visualisasi ini membantu melihat hubungan antara nilai polutan dan kategori yang ditetapkan.
     """)
