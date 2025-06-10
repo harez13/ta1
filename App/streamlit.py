@@ -20,23 +20,36 @@ if os.path.exists(file_path):
     st.markdown(
         f"""
         <style>
-        /* Terapkan background ke seluruh app */
-        html, body, [data-testid="stApp"] {{
-            background-image: url("data:image/png;base64,{bg_image}");
-            background-size: cover;
-            background-repeat: no-repeat;
-            background-position: center;
+        /* Background untuk seluruh halaman termasuk header */
+        html, body {{
+            height: 100%;
+            background: none;
         }}
 
-        /* Buat overlay hanya di konten utama */
+        body::before {{
+            content: "";
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background-image: url("data:image/png;base64,{bg_image}");
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            opacity: 1;
+            z-index: -1;
+        }}
+
+        /* Overlay semi-transparan untuk area konten utama */
         [data-testid="stAppViewContainer"] > .main::before {{
             content: "";
             position: absolute;
             top: 0;
-            right: 0;
             bottom: 0;
+            right: 0;
             left: 0;
-            background: rgba(0, 0, 0, 0.4); /* Overlay gelap */
+            background-color: rgba(0, 0, 0, 0.4);
             z-index: 0;
         }}
 
@@ -50,7 +63,7 @@ if os.path.exists(file_path):
         unsafe_allow_html=True
     )
 else:
-    st.error("Gagal menemukan file gambar.")
+    st.error("Gambar tidak ditemukan.")
 
 # -- Page Setup --
 
