@@ -13,17 +13,17 @@ st.title('Test')
 #-- Page Setup --
 
 tentang_saya = st.Page(
-    page = 'Menu/tentang_saya.py',
+    'Menu/tentang_saya.py',
     title = 'Tentang Saya',
 )
 
 project1_page = st.Page(
-    page = 'Menu/main_project.py',
+    'Menu/main_project.py',
     title = 'Project',
 )
 
 project2_page = st.Page(
-    page = 'Menu/dashboard.py',
+    'Menu/dashboard.py',
     title = 'Dashboard',
 )
 
