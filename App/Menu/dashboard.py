@@ -12,9 +12,11 @@ df = pd.read_csv("clean_data.csv")
 # Pastikan kolom tanggal dalam format datetime
 df['tanggal'] = pd.to_datetime(df['tanggal'])
 
+
 # Ekstrak tahun dan bulan
 df['tahun'] = df['tanggal'].dt.year
 df['bulan'] = df['tanggal'].dt.month
+df['nama_bulan'] = df['tanggal'].dt.strftime('%B')
 
 # Sidebar navigasi
 option = st.sidebar.selectbox(
@@ -264,18 +266,71 @@ elif option == "4. Frekuensi Parameter Pencemar Kritis per Stasiun":
 
     - Heatmap ini menunjukkan **tingkat hubungan antara setiap parameter pencemar** dan **tingkat kategori kualitas udara** yang telah dinyatakan dalam bentuk angka (1–5).
     - **Semakin tinggi nilai korelasi (positif), semakin besar kontribusi parameter tersebut terhadap memburuknya kualitas udara**.
+    """)
+
+    
+# --- Visualisasi 5 ---
+elif option == "5. Tren Harian PM2.5 per Stasiun":
+        # Konversi kategori kualitas udara menjadi nilai numerik
+    kategori_mapping = {
+        'BAIK': 1,
+        'SEDANG': 2,
+        'TIDAK SEHAT': 3,
+        'SANGAT TIDAK SEHAT': 4,
+        'BERBAHAYA': 5
+    }
+    df['kategori_nilai'] = df['kategori'].map(kategori_mapping)
+
+    # Pilihan bulan yang tersedia
+    daftar_bulan = df['nama_bulan'].unique().tolist()
+    daftar_bulan.sort()
+
+    # Sidebar
+    st.sidebar.header("🔽 Pilih Bulan")
+    pilih_bulan = st.sidebar.selectbox("Pilih bulan untuk melihat tren per stasiun:", daftar_bulan)
+
+    # Filter berdasarkan bulan
+    df_bulan = df[df['nama_bulan'] == pilih_bulan]
+
+    # Hitung rata-rata kualitas udara per stasiun
+    rata_per_stasiun = df_bulan.groupby('stasiun')['kategori_nilai'].mean().reset_index()
+
+    # Visualisasi
+    st.title("📆 Tren Kualitas Udara per Bulan untuk Semua Stasiun")
+    st.subheader(f"Bulan: {pilih_bulan}")
+
+    fig, ax = plt.subplots(figsize=(10, 6))
+    sns.barplot(data=rata_per_stasiun, x='kategori_nilai', y='stasiun', palette='RdYlGn_r', ax=ax)
+    ax.set_xlabel("Rata-rata Nilai Kategori Kualitas Udara (1=Baik, 5=Berbahaya)")
+    ax.set_ylabel("Stasiun")
+    ax.set_title(f"Rata-rata Kualitas Udara pada Bulan {pilih_bulan}")
+    st.pyplot(fig)
+
+    # Penjelasan
+    st.markdown("""
+    ---
+
+    ### ℹ️ Penjelasan Visualisasi:
+
+    - Grafik ini menunjukkan **rata-rata indeks kualitas udara** untuk tiap stasiun pada **bulan yang dipilih**.
+    - Skala nilai:
+    - 1 = Baik
+    - 2 = Sedang
+    - 3 = Tidak Sehat
+    - 4 = Sangat Tidak Sehat
+    - 5 = Berbahaya
 
     ---
 
-    ### 🧠 Yang Bisa Dianalisis:
-    - Nilai korelasi mendekati **+1** → Parameter sangat berkontribusi terhadap kualitas udara buruk.
-    - Nilai mendekati **0** → Pengaruh terhadap kategori kualitas udara lemah atau tidak signifikan.
-    - Ini membantu dalam **menentukan polutan utama yang perlu ditangani lebih serius**.
+    ### 📌 Tujuan Visualisasi:
+    - Mengetahui **stasiun mana yang memiliki udara paling bersih atau paling buruk** dalam satu bulan tertentu.
+    - Melihat tren musiman atau perubahan kualitas berdasarkan waktu.
+    - Membantu pemerintah atau peneliti menentukan **wilayah prioritas perbaikan**.
 
     ---
 
-    ### 🎯 Manfaat Heatmap Ini:
-    - Berguna untuk **pengambilan keputusan lingkungan**, seperti menentukan prioritas pengendalian polusi.
-    - Mendukung pembuatan model prediksi kualitas udara berbasis parameter pencemar.
+    ### 🧠 Insight yang Bisa Diambil:
+    - Jika suatu stasiun selalu tinggi nilainya → butuh intervensi serius.
+    - Jika nilai berubah drastis dibanding bulan sebelumnya → periksa kejadian khusus (cuaca, kebakaran, pembangunan, dll).
 
     """)
