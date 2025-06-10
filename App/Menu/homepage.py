@@ -312,7 +312,7 @@ def get_base64_of_bin_file(bin_file):
     return base64.b64encode(data).decode()
 
 # Ganti dengan nama file gambar lokal kamu
-sidebar_bg = get_base64_of_bin_file("sidebar_bg.jpg")
+sidebar_bg = get_base64_of_bin_file("Images/tom-barrett--bSucp2nUdQ-unsplash (1).jpg")
 
 # Sisipkan CSS untuk sidebar
 st.markdown(
