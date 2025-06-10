@@ -7,31 +7,39 @@ st.set_page_config(layout="wide")
 import os
 
 
-# Fungsi untuk encode gambar lokal jadi base64
-def add_bg_from_local(image_file):
-    with open(image_file, "rb") as img_file:
-        encoded = base64.b64encode(img_file.read()).decode()
+# Fungsi untuk mengatur background dari gambar lokal
+def set_bg_from_local(image_file):
+    with open(image_file, "rb") as img:
+        encoded = base64.b64encode(img.read()).decode()
+
     st.markdown(
         f"""
         <style>
         .stApp {{
-            background-image: url("data:image/jpg;base64,{encoded}");
+            background-image: url("data:image/png;base64,{encoded}");
             background-size: cover;
             background-position: center;
             background-attachment: fixed;
         }}
+
+        /* Membuat header transparan */
+        header {{
+            background: rgba(0, 0, 0, 0); /* transparan penuh */
+        }}
+
+        /* Opsional: membuat main container semi-transparan agar konten tetap fokus */
         .main {{
-            background-color: rgba(255, 255, 255, 0.85);  /* semi-transparent putih */
+            background-color: rgba(255, 255, 255, 0.8);
             padding: 2rem;
-            border-radius: 10px;
+            border-radius: 12px;
         }}
         </style>
         """,
         unsafe_allow_html=True
     )
 
-# Tambahkan background
-add_bg_from_local("Images/abhishek-koli-DsxD_bTq8x0-unsplash.jpg")
+# Terapkan background
+set_bg_from_local("Images/abhishek-koli-DsxD_bTq8x0-unsplash.jpg")  # ganti dengan nama file lokalmu
 
 
 # -- Page Setup --
