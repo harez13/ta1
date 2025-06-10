@@ -26,8 +26,23 @@ st.markdown(f"""
         border-bottom: 1px solid rgba(255,255,255,0.2);
     }}
 
+    /* Jika ingin pakai gambar background di header */
+    header[data-testid="stHeader"]::before {{
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background-image: url("data:image/png;base64,{bg_image}");
+        background-size: cover;
+        background-position: center;
+        opacity: 0.6;
+        z-index: -1;
+    }}
     </style>
 """, unsafe_allow_html=True)
+
 
 # -- Page Setup --
 
