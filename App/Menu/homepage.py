@@ -312,7 +312,7 @@ def get_base64_of_bin_file(bin_file):
     return base64.b64encode(data).decode()
 
 # Ganti dengan nama file gambar kamu
-bg_image = get_base64_of_bin_file("Images\tom-barrett--bSucp2nUdQ-unsplash (1).jpg")
+bg_image = get_base64_of_bin_file("Images/tom-barrett--bSucp2nUdQ-unsplash (1).jpg")
 
 # CSS: gambar latar belakang hanya untuk konten utama (.main), tanpa mengubah elemen lain
 st.markdown(
