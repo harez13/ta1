@@ -3,6 +3,7 @@ import base64
 
 
 st.set_page_config(page_title="About Me", layout="centered")
+st.set_page_config(layout="wide")
 
 # # Fungsi untuk mendapatkan string base64 dari file gambar
 def get_base64_of_bin_file(bin_file):
@@ -29,7 +30,7 @@ def set_png_as_page_bg(png_file):
 
 # # Menggunakan fungsi di atas
 set_png_as_page_bg('Images/tom-barrett--bSucp2nUdQ-unsplash (1).jpg')
-st.set_page_config(layout="wide")
+
 
 # Judul utama
 st.title("Dampak kesehatan dan sumber polusi udara")
