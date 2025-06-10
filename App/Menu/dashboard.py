@@ -33,11 +33,37 @@ pollutants = ['pm_sepuluh', 'pm_duakomalima', 'sulfur_dioksida',
 
 # --- Visualisasi 1 ---
 if option == "1. Korelasi Antar Parameter Pencemar":
-    st.subheader("🔗 Korelasi Antar Parameter Pencemar")
-    corr_matrix = df[pollutants].corr()
-    fig, ax = plt.subplots(figsize=(8, 6))
-    sns.heatmap(corr_matrix, annot=True, cmap="coolwarm", fmt=".2f", square=True, ax=ax)
-    st.pyplot(fig)
+    kategori_order = ['BAIK', 'SEDANG', 'TIDAK SEHAT', 'SANGAT TIDAK SEHAT', 'BERBAHAYA']
+    df['kategori'] = pd.Categorical(df['kategori'], categories=kategori_order, ordered=True)
+
+    # Judul
+    st.title("Dampak Polutan terhadap Kategori Kualitas Udara")
+    st.markdown("Visualisasi interaktif untuk memahami bagaimana berbagai polutan mempengaruhi kualitas udara berdasarkan kategorinya.")
+
+    # Polutan yang tersedia
+    polutan_cols = ['pm_sepuluh', 'pm_duakomalima', 'sulfur_dioksida', 'karbon_monoksida', 'ozon', 'nitrogen_dioksida']
+
+    # Boxplot
+    st.subheader("Distribusi Polutan per Kategori Kualitas Udara")
+    selected_polutan = st.selectbox("Pilih Polutan untuk Boxplot:", polutan_cols)
+
+    fig1, ax1 = plt.subplots()
+    sns.boxplot(data=df, x='kategori', y=selected_polutan, palette="Set2", ax=ax1)
+    ax1.set_title(f"Distribusi {selected_polutan.replace('_', ' ').upper()} per Kategori")
+    ax1.set_ylabel("Konsentrasi")
+    ax1.set_xlabel("Kategori Kualitas Udara")
+    st.pyplot(fig1)
+
+    # Scatterplot
+    st.subheader("Hubungan Antar Polutan dan Kategori Kualitas Udara")
+    x_polutan = st.selectbox("Pilih Polutan untuk Sumbu X:", polutan_cols, index=0)
+    y_polutan = st.selectbox("Pilih Polutan untuk Sumbu Y:", polutan_cols, index=1)
+
+    fig2 = px.scatter(df, x=x_polutan, y=y_polutan, color='kategori',
+                    title=f"{x_polutan.upper()} vs {y_polutan.upper()} berdasarkan Kategori Udara",
+                    labels={x_polutan: x_polutan.upper(), y_polutan: y_polutan.upper()},
+                    hover_data=['tanggal', 'stasiun'])
+    st.plotly_chart(fig2)
 
 # --- Visualisasi 2 ---
 elif option == "2. Rata-Rata Bulanan Parameter Pencemar":
