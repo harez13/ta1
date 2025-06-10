@@ -271,7 +271,12 @@ elif option == "4. Frekuensi Parameter Pencemar Kritis per Stasiun":
     
 # --- Visualisasi 5 ---
 elif option == "5. Tren Harian PM2.5 per Stasiun":
-        # Konversi kategori kualitas udara menjadi nilai numerik
+    df['nama_bulan'] = pd.Categorical(df['nama_bulan'], categories=[
+        'Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni',
+        'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'
+    ], ordered=True)
+
+    # Konversi kategori kualitas udara ke nilai numerik
     kategori_mapping = {
         'BAIK': 1,
         'SEDANG': 2,
@@ -281,29 +286,20 @@ elif option == "5. Tren Harian PM2.5 per Stasiun":
     }
     df['kategori_nilai'] = df['kategori'].map(kategori_mapping)
 
-    # Pilihan bulan yang tersedia
-    daftar_bulan = df['nama_bulan'].unique().tolist()
-    daftar_bulan.sort()
+    # Hitung rata-rata per bulan per stasiun
+    rata_bulanan = df.groupby(['nama_bulan', 'stasiun'])['kategori_nilai'].mean().reset_index()
 
-    # Sidebar
-    st.sidebar.header("🔽 Pilih Bulan")
-    pilih_bulan = st.sidebar.selectbox("Pilih bulan untuk melihat tren per stasiun:", daftar_bulan)
-
-    # Filter berdasarkan bulan
-    df_bulan = df[df['nama_bulan'] == pilih_bulan]
-
-    # Hitung rata-rata kualitas udara per stasiun
-    rata_per_stasiun = df_bulan.groupby('stasiun')['kategori_nilai'].mean().reset_index()
+    # Judul
+    st.title("📈 Line Chart: Tren Kualitas Udara Bulanan per Stasiun")
 
     # Visualisasi
-    st.title("📆 Tren Kualitas Udara per Bulan untuk Semua Stasiun")
-    st.subheader(f"Bulan: {pilih_bulan}")
-
-    fig, ax = plt.subplots(figsize=(10, 6))
-    sns.barplot(data=rata_per_stasiun, x='kategori_nilai', y='stasiun', palette='RdYlGn_r', ax=ax)
-    ax.set_xlabel("Rata-rata Nilai Kategori Kualitas Udara (1=Baik, 5=Berbahaya)")
-    ax.set_ylabel("Stasiun")
-    ax.set_title(f"Rata-rata Kualitas Udara pada Bulan {pilih_bulan}")
+    fig, ax = plt.subplots(figsize=(12, 6))
+    sns.lineplot(data=rata_bulanan, x='nama_bulan', y='kategori_nilai', hue='stasiun', marker="o", ax=ax)
+    ax.set_ylabel("Rata-rata Nilai Kategori Kualitas Udara (1=Baik, 5=Berbahaya)")
+    ax.set_xlabel("Bulan")
+    ax.set_title("Tren Kualitas Udara Bulanan per Stasiun")
+    ax.set_ylim(1, 5)
+    ax.grid(True)
     st.pyplot(fig)
 
     # Penjelasan
@@ -312,25 +308,23 @@ elif option == "5. Tren Harian PM2.5 per Stasiun":
 
     ### ℹ️ Penjelasan Visualisasi:
 
-    - Grafik ini menunjukkan **rata-rata indeks kualitas udara** untuk tiap stasiun pada **bulan yang dipilih**.
-    - Skala nilai:
+    - Garis menunjukkan **rata-rata kualitas udara setiap bulan** untuk masing-masing stasiun.
+    - Skala:
     - 1 = Baik
-    - 2 = Sedang
-    - 3 = Tidak Sehat
-    - 4 = Sangat Tidak Sehat
     - 5 = Berbahaya
+    - Titik-titik di garis menandai nilai per bulan.
 
     ---
 
-    ### 📌 Tujuan Visualisasi:
-    - Mengetahui **stasiun mana yang memiliki udara paling bersih atau paling buruk** dalam satu bulan tertentu.
-    - Melihat tren musiman atau perubahan kualitas berdasarkan waktu.
-    - Membantu pemerintah atau peneliti menentukan **wilayah prioritas perbaikan**.
+    ### 🎯 Tujuan:
+    - Menganalisis **perubahan kualitas udara sepanjang tahun**.
+    - Membandingkan antar stasiun: mana yang cenderung lebih buruk atau membaik secara musiman.
+    - Menunjukkan **waktu-waktu kritis** di mana kualitas udara memburuk, misalnya saat musim kemarau.
 
     ---
 
     ### 🧠 Insight yang Bisa Diambil:
-    - Jika suatu stasiun selalu tinggi nilainya → butuh intervensi serius.
-    - Jika nilai berubah drastis dibanding bulan sebelumnya → periksa kejadian khusus (cuaca, kebakaran, pembangunan, dll).
+    - Jika tren selalu tinggi pada bulan tertentu → evaluasi sumber polusi musiman.
+    - Jika tren membaik → bisa jadi karena faktor penurunan aktivitas manusia atau kebijakan berhasil.
 
     """)
