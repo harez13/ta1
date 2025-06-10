@@ -12,28 +12,37 @@ def load_model():
 
 model = load_model()
 
-# Input data dari user
-st.header("Masukkan Data untuk Prediksi")
+# Input dari pengguna
+st.header("Masukkan Nilai Parameter:")
 
-# Contoh input fitur (ubah sesuai fitur model Anda)
-pm10 = st.number_input("PM10", min_value=0.0, max_value=500.0, value=50.0)
-pm25 = st.number_input("PM2.5", min_value=0.0, max_value=500.0, value=30.0)
-so2 = st.number_input("Sulfur Dioksida (SO2)", min_value=0.0, max_value=500.0, value=10.0)
-co = st.number_input("Karbon Monoksida (CO)", min_value=0.0, max_value=500.0, value=5.0)
+pm10_val = st.number_input("PM10", min_value=0.0, max_value=1000.0, value=50.0)
+pm25_val = st.number_input("PM2.5", min_value=0.0, max_value=1000.0, value=30.0)
+so2_val = st.number_input("Sulfur Dioksida (SO2)", min_value=0.0, max_value=1000.0, value=10.0)
+co_val = st.number_input("Karbon Monoksida (CO)", min_value=0.0, max_value=1000.0, value=5.0)
+o3_val = st.number_input("Ozon (O3)", min_value=0.0, max_value=1000.0, value=20.0)
+no2_val = st.number_input("Nitrogen Dioksida (NO2)", min_value=0.0, max_value=1000.0, value=8.0)
+max_val = st.number_input("Nilai Maksimum ISPU", min_value=0.0, max_value=1000.0, value=55.0)
 
-# Dataframe input
-input_df = pd.DataFrame({
-    "pm10": [pm10],
-    "pm25": [pm25],
-    "so2": [so2],
-    "co": [co]
-})
+# Membuat dataframe dari input
+input_df = pd.DataFrame([{
+    "pm10": pm10_val,
+    "pm25": pm25_val,
+    "so2": so2_val,
+    "co": co_val,
+    "o3": o3_val,
+    "no2": no2_val,
+    "max": max_val
+}])
 
-# Tampilkan data input
-st.subheader("Data yang Anda Masukkan")
+# Tampilkan input
+st.subheader("Data yang Dikirim ke Model:")
 st.write(input_df)
 
 # Prediksi
 if st.button("Prediksi"):
-    prediction = model.predict(input_df)
-    st.success(f"Hasil Prediksi: {prediction[0]}")
+    try:
+        prediction = model.predict(input_df)
+        st.success(f"Hasil Prediksi: {prediction[0]}")
+    except Exception as e:
+        st.error("Terjadi kesalahan saat prediksi. Pastikan fitur input sesuai dengan model.")
+        st.exception(e)
