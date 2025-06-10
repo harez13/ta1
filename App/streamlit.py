@@ -19,12 +19,7 @@ if os.path.exists(file_path):
 
 st.markdown(f"""
     <style>
-        /* Membuat header Streamlit transparan */
-        header[data-testid="stHeader"] {{
-        background-color: transparent;
-        background-image: none;
-        box-shadow: none;
-        }}
+    
 
         /* Latar belakang dengan gambar */
         [data-testid="stAppViewContainer"] > .main {{
