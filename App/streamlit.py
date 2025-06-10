@@ -29,7 +29,7 @@ st.markdown(f"""
         }}
 
         /* Overlay hitam semi-transparan */
-        [data-testid="stAppViewContainer"] > .main::before {{
+        [data-testid="stAppViewContainer"] > .main: {{
             content: "";
             position: absolute;
             top: 0;
@@ -39,19 +39,6 @@ st.markdown(f"""
             background: rgba(0, 0, 0, 0.4); /* ubah angka ini untuk lebih terang/gelap */
             z-index: 0;
         }}
-
-        /* Overlay hitam semi-transparan */
-        [data-testid="stAppViewContainer"] > .main::after {{
-            content: "";
-            position: absolute;
-            top: 0;
-            right: 0;
-            bottom: 0;
-            left: 0;
-            background: rgba(0, 0, 0, 0.4); /* ubah angka ini untuk lebih terang/gelap */
-            z-index: 0;
-        }}
-
         /* Konten tetap tampil di atas overlay */
         [data-testid="stAppViewContainer"] > .main > div {{
             position: relative;
