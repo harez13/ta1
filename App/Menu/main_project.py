@@ -124,7 +124,7 @@ with st.form("predict"):
                         with col2:
                             st.markdown(f"**{r['judul']}**")
                             
-                            st.markdown(f"<p>{teks}</p>", unsafe_allow_html=True)
+                            
 
                 # Garis pemisah bawah
                 st.markdown("---")
@@ -165,7 +165,7 @@ with st.form("predict"):
                         with col2:
                             st.markdown(f"**{r['judul']}**")
                             
-                            st.markdown(f"<p>{teks}</p>", unsafe_allow_html=True)
+                            
 
                 # Garis pemisah bawah
                 st.markdown("---")
@@ -205,7 +205,7 @@ with st.form("predict"):
                         with col2:
                             st.markdown(f"**{r['judul']}**")
                             
-                            st.markdown(f"<p>{teks}</p>", unsafe_allow_html=True)
+                            
 
                 # Garis pemisah bawah
                 st.markdown("---")
