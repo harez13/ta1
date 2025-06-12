@@ -90,6 +90,8 @@ with st.form("predict"):
             pred = Model.predict([[pm10_val,pm25_val,so2_val,co_val,o3_val,no2_val,max_val]])
             if pred[0]==1:
                 st.success("Kondisi Udara Baik")
+                st.markdown("## 🩺 Rekomendasi Kesehatan")
+
             elif pred[0]==2:
                 st.warning("Peringatan, Kondisi Udara Sedang")
             elif pred[0]==3:

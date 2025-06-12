@@ -7,11 +7,11 @@ import base64
 
 
 
-
+st.write('#')
 # Judul utama
 st.title("Dampak kesehatan dan sumber polusi udara")
 
-st.write('#')
+
 # Membuat dua kolom
 col1, col2 = st.columns([1, 1])
 

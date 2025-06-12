@@ -51,28 +51,28 @@ st.markdown(
 
 tentang_saya = st.Page(
     'Menu/tentang_saya.py',
-    title = 'Tentang Saya',
+    title = '👨‍🎓Tentang Saya',
 )
 
 homepage = st.Page(
     'Menu/homepage.py',
-    title = 'Homepage',
+    title = '🏠Homepage',
     default=True
 )
 
 dataset = st.Page(
     'Menu/dataset.py',
-    title = 'Dataset',
+    title = '🖥Dataset',
 )
 
 project1_page = st.Page(
     'Menu/main_project.py',
-    title = 'Project',
+    title = '📚Project',
 )
 
 project2_page = st.Page(
     'Menu/dashboard.py',
-    title = 'Dashboard',
+    title = '💻Dashboard',
 )
 
 #-- Navigation Setup [Without Sections] --
