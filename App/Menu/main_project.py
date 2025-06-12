@@ -90,44 +90,6 @@ with st.form("predict"):
             pred = Model.predict([[pm10_val,pm25_val,so2_val,co_val,o3_val,no2_val,max_val]])
             if pred[0]==1:
                 st.success("Kondisi Udara Baik")
-                st.markdown("## 🩺 Rekomendasi Kesehatan")
-                # Data rekomendasi
-                rekomendasi = [
-                    {
-                        "emoji": "🚴",
-                        "judul": "Kelompok sensitif sebaiknya mengurangi aktivitas outdoor",
-                        
-                    },
-                    {
-                        "emoji": "🪟",
-                        "judul": "Tutup jendela anda untuk menghindari udara luar yang kotor",
-                        
-                    },
-                    {
-                        "emoji": "😷",
-                        "judul": "Kelompok sensitif sebaiknya memakai masker di luar",
-                        
-                    },
-                    {
-                        "emoji": "🌀",
-                        "judul": "Kelompok sensitif harus memulai pembersih udara",
-                        
-                    },
-                ]
-
-                # Styling rekomendasi
-                for r in rekomendasi:
-                    with st.container():
-                        col1, col2 = st.columns([1, 9])
-                        with col1:
-                            st.markdown(f"<div style='font-size:28px'>{r['emoji']}</div>", unsafe_allow_html=True)
-                        with col2:
-                            st.markdown(f"**{r['judul']}**")
-                            
-                            
-
-                # Garis pemisah bawah
-                st.markdown("---")
 
             elif pred[0]==2:
                 st.warning("Peringatan, Kondisi Udara Sedang")
