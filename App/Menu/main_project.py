@@ -96,22 +96,22 @@ with st.form("predict"):
                     {
                         "emoji": "🚴",
                         "judul": "Kelompok sensitif sebaiknya mengurangi aktivitas outdoor",
-                        "tautan": None,
+                        
                     },
                     {
                         "emoji": "🪟",
                         "judul": "Tutup jendela anda untuk menghindari udara luar yang kotor",
-                        "tautan": ("Dapatkan monitor udara", "#"),
+                        
                     },
                     {
                         "emoji": "😷",
                         "judul": "Kelompok sensitif sebaiknya memakai masker di luar",
-                        "tautan": ("Dapatkan masker", "#"),
+                        
                     },
                     {
                         "emoji": "🌀",
                         "judul": "Kelompok sensitif harus memulai pembersih udara",
-                        "tautan": ("Dapatkan penjernih udara", "#"),
+                        
                     },
                 ]
 
@@ -138,22 +138,22 @@ with st.form("predict"):
                     {
                         "emoji": "🚴",
                         "judul": "Kelompok sensitif sebaiknya mengurangi aktivitas outdoor",
-                        "tautan": None,
+                        
                     },
                     {
                         "emoji": "🪟",
                         "judul": "Tutup jendela anda untuk menghindari udara luar yang kotor",
-                        "tautan": ("Dapatkan monitor udara", "#"),
+                        
                     },
                     {
                         "emoji": "😷",
                         "judul": "Kelompok sensitif sebaiknya memakai masker di luar",
-                        "tautan": ("Dapatkan masker", "#"),
+                        
                     },
                     {
                         "emoji": "🌀",
                         "judul": "Kelompok sensitif harus memulai pembersih udara",
-                        "tautan": ("Dapatkan penjernih udara", "#"),
+                        
                     },
                 ]
 
@@ -179,22 +179,22 @@ with st.form("predict"):
                     {
                         "emoji": "🚴",
                         "judul": "Kelompok sensitif sebaiknya mengurangi aktivitas outdoor",
-                        "tautan": None,
+                        
                     },
                     {
                         "emoji": "🪟",
                         "judul": "Tutup jendela anda untuk menghindari udara luar yang kotor",
-                        "tautan": ("Dapatkan monitor udara", "#"),
+                        
                     },
                     {
                         "emoji": "😷",
                         "judul": "Kelompok sensitif sebaiknya memakai masker di luar",
-                        "tautan": ("Dapatkan masker", "#"),
+                        
                     },
                     {
                         "emoji": "🌀",
                         "judul": "Kelompok sensitif harus memulai pembersih udara",
-                        "tautan": ("Dapatkan penjernih udara", "#"),
+                        
                     },
                 ]
 
