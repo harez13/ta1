@@ -22,15 +22,15 @@ df['nama_bulan'] = df['tanggal'].dt.strftime('%B')
 option = st.sidebar.selectbox(
     "Pilih Visualisasi:",
     (
-        "1. Korelasi Antar Parameter Pencemar",
-        "2. Rata-Rata Bulanan Parameter Pencemar",
-        "3. Distribusi Kategori Kualitas Udara per Stasiun",
+        "1. Tren Bulanan PM2.5 dan PM10 per Stasiun",
+        "2. Tren Bulanan Kategori Kualitas Udara",
+        "3. Time Series Matrix per Stasiun",
         "4. Frekuensi Parameter Pencemar Kritis per Stasiun",
         "5. Tren Harian PM2.5 per Stasiun"
     )
 )
 
-if option == "1. Korelasi Antar Parameter Pencemar":
+if option == "1. Tren Bulanan PM2.5 dan PM10 per Stasiun":
     # Sidebar filter
     st.title("Tren Bulanan PM2.5 dan PM10 per Stasiun")
 
@@ -140,7 +140,7 @@ if option == "1. Korelasi Antar Parameter Pencemar":
     """)
 
 # --- Visualisasi 2 ---
-elif option == "2. Rata-Rata Bulanan Parameter Pencemar":
+elif option == "2. Tren Bulanan Kategori Kualitas Udara":
     # Sidebar: Filter stasiun
     st.title("Tren Bulanan Kategori Kualitas Udara")
 
@@ -192,7 +192,14 @@ elif option == "2. Rata-Rata Bulanan Parameter Pencemar":
     """)
 
 # --- Visualisasi 3 ---
-elif option == "3. Distribusi Kategori Kualitas Udara per Stasiun":
+elif option == "3. Time Series Matrix per Stasiun":
+    
+
+   
+
+    # Plot per stasiun
+    st.title("Time Series Matrix per Stasiun")
+
     parameter = st.selectbox(
         "Pilih Parameter Pencemar",
         ["pm_sepuluh", "pm_duakomalima", "sulfur_dioksida", "karbon_monoksida", "ozon", "nitrogen_dioksida"]
@@ -205,11 +212,9 @@ elif option == "3. Distribusi Kategori Kualitas Udara per Stasiun":
         default=df["stasiun"].unique()
     )
 
-    # Filter data
+     # Filter data
     filtered_df = df[df["stasiun"].isin(stations)].copy()
-
-    # Plot per stasiun
-    st.title("Time Series Matrix per Stasiun")
+    
     fig, axes = plt.subplots(nrows=len(stations), ncols=1, figsize=(12, 4 * len(stations)), sharex=True)
 
     if len(stations) == 1:

@@ -138,7 +138,7 @@ with st.form("predict"):
                 rekomendasi = [
                     {
                         "emoji": "🚴",
-                        "judul": "Kelompok sensitif sebaiknya mengurangi aktivitas outdoor",
+                        "judul": "Hindari aktivitas outdoor",
                         
                     },
                     {
@@ -148,12 +148,12 @@ with st.form("predict"):
                     },
                     {
                         "emoji": "😷",
-                        "judul": "Kelompok sensitif sebaiknya memakai masker di luar",
+                        "judul": "Kenakan masker di luar",
                         
                     },
                     {
                         "emoji": "🌀",
-                        "judul": "Kelompok sensitif harus memulai pembersih udara",
+                        "judul": "Nyalakan penyaring udara",
                         
                     },
                 ]
