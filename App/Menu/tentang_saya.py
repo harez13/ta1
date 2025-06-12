@@ -8,7 +8,7 @@ import base64
 
 
 # Judul
-st.title("👤 Tentang Saya")
+st.title("🙍‍♂️ Tentang Saya")
 
 # Gambar dari Google Drive
 image_url = "https://drive.google.com/uc?export=view&id=1CdX1Ke8ybf_L9WRgTPd9dQPZi2AgeOfN"
