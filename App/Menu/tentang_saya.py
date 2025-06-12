@@ -24,7 +24,7 @@ with col2:
     st.write("👨‍💼 **NPM**: 202143501715")
     st.write("🏢 **Prodi**: Teknik Informatika")
     st.write("📧 **Email**: haerezaputra6@gmail.com.com")
-    st.write("📍 **No. HP**: 0895705701052")
+    st.write("📱 **No. HP**: 0895705701052")
 
 st.markdown("---")
 

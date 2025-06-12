@@ -6,11 +6,12 @@ import base64
 # st.set_page_config(layout="wide")
 
 
-st.write('#')
+
 
 # Judul utama
 st.title("Dampak kesehatan dan sumber polusi udara")
 
+st.write('#')
 # Membuat dua kolom
 col1, col2 = st.columns([1, 1])
 
