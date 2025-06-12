@@ -91,9 +91,125 @@ with st.form("predict"):
             if pred[0]==1:
                 st.success("Kondisi Udara Baik")
                 st.markdown("## 🩺 Rekomendasi Kesehatan")
+                # Data rekomendasi
+                rekomendasi = [
+                    {
+                        "emoji": "🚴",
+                        "judul": "Kelompok sensitif sebaiknya mengurangi aktivitas outdoor",
+                        "tautan": None,
+                    },
+                    {
+                        "emoji": "🪟",
+                        "judul": "Tutup jendela anda untuk menghindari udara luar yang kotor",
+                        "tautan": ("Dapatkan monitor udara", "#"),
+                    },
+                    {
+                        "emoji": "😷",
+                        "judul": "Kelompok sensitif sebaiknya memakai masker di luar",
+                        "tautan": ("Dapatkan masker", "#"),
+                    },
+                    {
+                        "emoji": "🌀",
+                        "judul": "Kelompok sensitif harus memulai pembersih udara",
+                        "tautan": ("Dapatkan penjernih udara", "#"),
+                    },
+                ]
+
+                # Styling rekomendasi
+                for r in rekomendasi:
+                    with st.container():
+                        col1, col2 = st.columns([1, 9])
+                        with col1:
+                            st.markdown(f"<div style='font-size:28px'>{r['emoji']}</div>", unsafe_allow_html=True)
+                        with col2:
+                            st.markdown(f"**{r['judul']}**")
+                            if r["tautan"]:
+                                teks, link = r["tautan"]
+                                st.markdown(f"<a href='{link}' target='_blank' style='color: #1f77b4'>{teks}</a>", unsafe_allow_html=True)
+
+                # Garis pemisah bawah
+                st.markdown("---")
 
             elif pred[0]==2:
                 st.warning("Peringatan, Kondisi Udara Sedang")
+                st.markdown("## 🩺 Rekomendasi Kesehatan")
+                # Data rekomendasi
+                rekomendasi = [
+                    {
+                        "emoji": "🚴",
+                        "judul": "Kelompok sensitif sebaiknya mengurangi aktivitas outdoor",
+                        "tautan": None,
+                    },
+                    {
+                        "emoji": "🪟",
+                        "judul": "Tutup jendela anda untuk menghindari udara luar yang kotor",
+                        "tautan": ("Dapatkan monitor udara", "#"),
+                    },
+                    {
+                        "emoji": "😷",
+                        "judul": "Kelompok sensitif sebaiknya memakai masker di luar",
+                        "tautan": ("Dapatkan masker", "#"),
+                    },
+                    {
+                        "emoji": "🌀",
+                        "judul": "Kelompok sensitif harus memulai pembersih udara",
+                        "tautan": ("Dapatkan penjernih udara", "#"),
+                    },
+                ]
+
+                # Styling rekomendasi
+                for r in rekomendasi:
+                    with st.container():
+                        col1, col2 = st.columns([1, 9])
+                        with col1:
+                            st.markdown(f"<div style='font-size:28px'>{r['emoji']}</div>", unsafe_allow_html=True)
+                        with col2:
+                            st.markdown(f"**{r['judul']}**")
+                            if r["tautan"]:
+                                teks, link = r["tautan"]
+                                st.markdown(f"<a href='{link}' target='_blank' style='color: #1f77b4'>{teks}</a>", unsafe_allow_html=True)
+
+                # Garis pemisah bawah
+                st.markdown("---")
             elif pred[0]==3:
                 st.error("Bahaya, Kondisi Udara Tidak Sehat", icon="⚠️")
+                st.markdown("## 🩺 Rekomendasi Kesehatan")
+                # Data rekomendasi
+                rekomendasi = [
+                    {
+                        "emoji": "🚴",
+                        "judul": "Kelompok sensitif sebaiknya mengurangi aktivitas outdoor",
+                        "tautan": None,
+                    },
+                    {
+                        "emoji": "🪟",
+                        "judul": "Tutup jendela anda untuk menghindari udara luar yang kotor",
+                        "tautan": ("Dapatkan monitor udara", "#"),
+                    },
+                    {
+                        "emoji": "😷",
+                        "judul": "Kelompok sensitif sebaiknya memakai masker di luar",
+                        "tautan": ("Dapatkan masker", "#"),
+                    },
+                    {
+                        "emoji": "🌀",
+                        "judul": "Kelompok sensitif harus memulai pembersih udara",
+                        "tautan": ("Dapatkan penjernih udara", "#"),
+                    },
+                ]
+
+                # Styling rekomendasi
+                for r in rekomendasi:
+                    with st.container():
+                        col1, col2 = st.columns([1, 9])
+                        with col1:
+                            st.markdown(f"<div style='font-size:28px'>{r['emoji']}</div>", unsafe_allow_html=True)
+                        with col2:
+                            st.markdown(f"**{r['judul']}**")
+                            if r["tautan"]:
+                                teks, link = r["tautan"]
+                                st.markdown(f"<a href='{link}' target='_blank' style='color: #1f77b4'>{teks}</a>", unsafe_allow_html=True)
+
+                # Garis pemisah bawah
+                st.markdown("---")
         
