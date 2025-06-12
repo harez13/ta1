@@ -26,7 +26,7 @@ option = st.sidebar.selectbox(
         "2. Tren Bulanan Kategori Kualitas Udara",
         "3. Time Series Matrix per Stasiun",
         "4. Frekuensi Parameter Pencemar Kritis per Stasiun",
-        "5. Tren Harian PM2.5 per Stasiun"
+        "5. Bubble Chart: Tanggal vs Stasiun"
     )
 )
 
@@ -275,7 +275,7 @@ elif option == "4. Frekuensi Parameter Pencemar Kritis per Stasiun":
 
     
 # --- Visualisasi 5 ---
-elif option == "5. Tren Harian PM2.5 per Stasiun":
+elif option == "5. Bubble Chart: Tanggal vs Stasiun":
     # Sidebar filter
     st.sidebar.header("🧭 Filter Bubble Chart")
     param_kolom = st.sidebar.selectbox("Pilih parameter pencemar (nilai aktual):", df.columns[5:], help="Pilih kolom nilai numerik, seperti PM2.5 atau lainnya.")
