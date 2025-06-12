@@ -123,9 +123,8 @@ with st.form("predict"):
                             st.markdown(f"<div style='font-size:28px'>{r['emoji']}</div>", unsafe_allow_html=True)
                         with col2:
                             st.markdown(f"**{r['judul']}**")
-                            if r["tautan"]:
-                                teks, link = r["tautan"]
-                                st.markdown(f"<a href='{link}' target='_blank' style='color: #1f77b4'>{teks}</a>", unsafe_allow_html=True)
+                            
+                            st.markdown(f"<p>{teks}</p>", unsafe_allow_html=True)
 
                 # Garis pemisah bawah
                 st.markdown("---")
@@ -165,9 +164,8 @@ with st.form("predict"):
                             st.markdown(f"<div style='font-size:28px'>{r['emoji']}</div>", unsafe_allow_html=True)
                         with col2:
                             st.markdown(f"**{r['judul']}**")
-                            if r["tautan"]:
-                                teks, link = r["tautan"]
-                                st.markdown(f"<a href='{link}' target='_blank' style='color: #1f77b4'>{teks}</a>", unsafe_allow_html=True)
+                            
+                            st.markdown(f"<p>{teks}</p>", unsafe_allow_html=True)
 
                 # Garis pemisah bawah
                 st.markdown("---")
@@ -206,9 +204,8 @@ with st.form("predict"):
                             st.markdown(f"<div style='font-size:28px'>{r['emoji']}</div>", unsafe_allow_html=True)
                         with col2:
                             st.markdown(f"**{r['judul']}**")
-                            if r["tautan"]:
-                                teks, link = r["tautan"]
-                                st.markdown(f"<a href='{link}' target='_blank' style='color: #1f77b4'>{teks}</a>", unsafe_allow_html=True)
+                            
+                            st.markdown(f"<p>{teks}</p>", unsafe_allow_html=True)
 
                 # Garis pemisah bawah
                 st.markdown("---")
