@@ -82,6 +82,14 @@ with st.form("predict"):
     # Tambahkan tombol
     submitted = st.form_submit_button("Predict")
 
+   st.write(
+    "Untuk melihat kondisi parameter kualitas udara secara real-time, "
+    "Anda dapat mengakses tautan berikut: "
+    "[https://aqicn.org/map/indonesia/id/](https://aqicn.org/map/indonesia/id/). "
+    "Situs ini menyediakan peta interaktif yang menampilkan indeks kualitas udara "
+    "di berbagai wilayah Indonesia, lengkap dengan detail parameter polutan utama."
+)
+
         # Lakukan prediksi
     if submitted:
         if pm10_val == 0 or pm25_val == 0 or o3_val == 0 or so2_val == 0 or no2_val == 0 or co_val == 0 or max_val == 0:
