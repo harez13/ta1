@@ -81,14 +81,14 @@ with st.form("predict"):
 
     # Tambahkan tombol
     submitted = st.form_submit_button("Predict")
-
-   st.write(
-    "Untuk melihat kondisi parameter kualitas udara secara real-time, "
-    "Anda dapat mengakses tautan berikut: "
-    "[https://aqicn.org/map/indonesia/id/](https://aqicn.org/map/indonesia/id/). "
-    "Situs ini menyediakan peta interaktif yang menampilkan indeks kualitas udara "
-    "di berbagai wilayah Indonesia, lengkap dengan detail parameter polutan utama."
-)
+    
+    st.write(
+       "Untuk melihat kondisi parameter kualitas udara secara real-time, "
+       "Anda dapat mengakses tautan berikut: "
+       "[https://aqicn.org/map/indonesia/id/](https://aqicn.org/map/indonesia/id/). "
+       "Situs ini menyediakan peta interaktif yang menampilkan indeks kualitas udara "
+       "di berbagai wilayah Indonesia, lengkap dengan detail parameter polutan utama."
+   )
 
         # Lakukan prediksi
     if submitted:
